@@ -32,7 +32,7 @@ const Skills = () => {
 
   return (
     <motion.div
-      className="px-4 sm:px-8 md:px-16 lg:px-24 mt-10 max-w-6xl mx-auto"
+      className="px-4 sm:px-8 md:px-16 lg:px-24 mt-5 max-w-6xl mx-auto"
       variants={fadeIn}
       initial="hidden"
       animate="show"

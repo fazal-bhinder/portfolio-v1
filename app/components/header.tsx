@@ -31,7 +31,7 @@ export default function Header() {
             <h1 className="text-4xl font-bold">Fazal Singh</h1>
             <div className="flex items-center md:mr-24 space-x-4 ">
               <a
-                href="https://drive.google.com/file/d/1crbt74WdjzmufYOrNIVtL97Ukmx-VT1y/view"
+                href="https://drive.google.com/file/d/1nLlLWEVNrAkQVug81Qbbpxs_CSL34jfj/view"
                 target="_blank"
                 rel="noreferrer"
               >

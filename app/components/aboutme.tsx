@@ -10,7 +10,7 @@ const fadeIn = {
 export default function AboutMe() {
   return (
     <motion.div
-      className="flex flex-col px-4 sm:px-8 md:px-16 lg:px-24 mt-10 max-w-5xl mx-auto"
+      className="flex flex-col px-4 sm:px-8 md:px-16 lg:px-24 mt-5 max-w-5xl mx-auto"
       variants={fadeIn}
       initial="hidden"
       animate="show"
@@ -35,7 +35,6 @@ export default function AboutMe() {
         </a>
         .
       </p>
-
       <p className="text-zinc-500 mt-2 text-base">
         You’ll often find me contributing to open-source or building side projects.
         i love to explore new technologies and frameworks, and i’m always eager to
