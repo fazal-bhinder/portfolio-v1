@@ -55,7 +55,7 @@ export const Footer = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.6 }}
-        className="flex mt-4 justify-center items-center mb-15"
+        className="flex mt-4 justify-center items-center mb-10"
       >
         <p className="text-zinc-500 text-sm">
           © 2025 <a href="https://x.com/damnfazal">fazal</a>. All rights reserved.
