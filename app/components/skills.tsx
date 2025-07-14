@@ -35,7 +35,7 @@ const Skills = () => {
       initial="hidden"
       animate="show"
     >
-      <motion.p className="text-xl font-semibold mb-4">mostly i use.</motion.p>
+      <motion.p className="text-xl font-semibold mb-4">skills i have.</motion.p>
 
       <div className="flex flex-wrap gap-3">
         {technologies.map((tech, index) => (
