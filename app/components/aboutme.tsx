@@ -36,7 +36,7 @@ export default function AboutMe() {
         .
       </p>
       <p className="text-zinc-500 mt-2 text-base">
-        You’ll often find me contributing to open-source or building side projects.
+        you’ll often find me contributing to open-source or building side projects.
         i love to explore new technologies and frameworks, and i’m always eager to
         learn and grow as a developer.
       </p>
