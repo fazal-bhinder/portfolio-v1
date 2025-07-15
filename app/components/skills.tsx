@@ -19,9 +19,9 @@ const Skills = () => {
     { name: "Node.js", image: "/skills/nodejs.png" },
     { name: "HTML5", image: "/skills/HTML5.png" },
     { name: "CSS3", image: "/skills/CSS3.png" },
-    { name: "docker", image: "/skills/docker.png" },
-    { name: "fastAPI", image: "/skills/FastAPI.png" },
-    { name: "git", image: "/skills/Git.png" },
+    { name: "Docker", image: "/skills/docker.png" },
+    { name: "FastAPI", image: "/skills/FastAPI.png" },
+    { name: "Git", image: "/skills/Git.png" },
     { name: "Github", image: "/skills/GitHub.png" },
     { name: "MongoDb", image: "/skills/mongodb.png" },
     { name: "Postman", image: "/skills/Postman.png" },
@@ -49,7 +49,7 @@ const Skills = () => {
         {technologies.map((tech, index) => (
           <div
             key={index}
-            className="rounded-lg text-center px-2 py-1 border border-zinc-200 dark:border-zinc-700 text-sm cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-white/25 flex items-center gap-2"
+            className="rounded-lg text-center px-2 py-1 border border-zinc-200 dark:border-zinc-700 text-sm cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-white/25 flex items-center"
           >
             <Image
               src={tech.image}
