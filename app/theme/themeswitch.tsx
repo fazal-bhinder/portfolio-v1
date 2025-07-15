@@ -83,7 +83,7 @@ export const ThemeSwitch: React.FC = () => {
       id="theme-toggle"
       aria-label={`${currentTheme} mode`}
       onClick={toggleTheme}
-      className="p-2 rounded-xl text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all duration-200"
+      className="p-2 rounded-xl cursor-pointer text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all duration-200"
     >
       {currentTheme === "light" ? <Moon size={18} /> : <Sun size={18} />}
     </button>
