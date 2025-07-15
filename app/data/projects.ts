@@ -27,7 +27,7 @@ export const projects = [
     title: "Formla 1",
     description: "Inspired by the thrill and intensity of Formula 1. It features a dynamic fullscreen video background, iconic quotes from drivers, and a sleek, responsive design.",
     imageSrc: F1,
-    liveUrl: "https://racing-f1.b-cdn.net/",
+    liveUrl: "https://formula-01.netlify.app/",
     githubUrl: "https://github.com/fazal-bhinder/formula-1",
   },
     {
