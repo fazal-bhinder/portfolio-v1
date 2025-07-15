@@ -28,7 +28,7 @@ export default function Header() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            <h1 className="text-4xl font-bold">Fazal Singh</h1>
+            <h1 className="text-3xl md:text-4xl font-bold">Fazal Singh</h1>
             <div className="flex items-center md:mr-24 space-x-4 ">
               <a
                 href="https://drive.google.com/file/d/1nLlLWEVNrAkQVug81Qbbpxs_CSL34jfj/view"

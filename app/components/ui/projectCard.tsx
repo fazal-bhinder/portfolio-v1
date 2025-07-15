@@ -27,13 +27,13 @@ export default function ProjectCard({
         transition-transform duration-300 
         hover:scale-[1.015] 
         hover:border-primary
-      border-zinc-400 dark:border-black 
-        rounded-lg p-4 flex items-start gap-4 
+        border-zinc-400 dark:border-black 
+        rounded-lg p-4 flex flex-col sm:flex-row items-start gap-4 
         w-full max-w-4xl mx-auto group shadow-md
         dark:hover:shadow-white/25 mb-2
       `}
     >
-      <div className="w-32 h-28 relative shrink-0 rounded-md overflow-hidden">
+      <div className="w-full sm:w-32 h-48 sm:h-28 relative shrink-0 rounded-md overflow-hidden">
         <Image
           src={imageSrc}
           alt={title}
@@ -41,28 +41,20 @@ export default function ProjectCard({
           className="object-cover"
         />
       </div>
-      <div className="flex-1">
-        <div className="flex items-start justify-between">
-          <div>
-            <h2 className="text-xl font-semibold ">
-              {title}
-            </h2>
-          </div>
-          <div className="flex items-center gap-3 ">
+      <div className="flex-1 w-full">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <h2 className="text-xl font-semibold">{title}</h2>
+          <div className="flex items-center gap-3">
             <a
               href={demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className=""
               title="Live Demo"
-            >
-
-            </a>
+            />
             <a
               href={demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className=""
               title="Open"
             >
               <HiOutlineExternalLink className="w-5 h-5" />
@@ -71,17 +63,13 @@ export default function ProjectCard({
               href={githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className=""
               title="GitHub"
             >
               <FaGithub className="w-5 h-5" />
             </a>
           </div>
         </div>
-        <p className="text-sm  mt-2 leading-relaxed">
-          {description}
-        </p>
-        
+        <p className="text-sm mt-2 leading-relaxed">{description}</p>
       </div>
     </div>
   );
