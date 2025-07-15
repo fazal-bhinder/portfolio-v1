@@ -25,7 +25,15 @@ const Skills = () => {
     { name: "Github", image: "/skills/GitHub.png" },
     { name: "MongoDb", image: "/skills/mongodb.png" },
     { name: "Postman", image: "/skills/Postman.png" },
-    { name: "Prisma", image: "/skills/prisma.webp" }
+    { name: "Prisma", image: "/skills/prisma.webp" },
+    { name: "TailwindCSS", image: "/skills/tailwindcss.png" },
+    { name: "Redis", image: "/skills/redis.png" },
+    { name: "PostgreSQL", image: "/skills/PostgreSql.png" },
+    { name: "C", image: "/skills/c.png" },
+    { name: "Figma", image: "/skills/figma.png" },
+    { name: "Express.js", image: "/skills/express.png" },
+    { name: "Motion", image: "/skills/motion.webp" },
+    { name: "GSAP", image: "/skills/gsap.webp" },
   ];
 
   return (

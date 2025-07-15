@@ -27,7 +27,6 @@ export default function ProjectCard({
         transition-transform duration-300 
         hover:scale-[1.015] 
         hover:border-primary
-        border-zinc-400 dark:border-black 
         rounded-lg p-4 flex flex-col sm:flex-row items-start gap-4 
         w-full max-w-4xl mx-auto group shadow-md
         dark:hover:shadow-white/25 mb-2

@@ -20,7 +20,7 @@ export default function Projects() {
     >
       {/* Section Heading */}
       <div className="mb-5">
-        <p className="h-[1px] w-full bg-gradient-to-r from-white to-black mb-4" />
+        <p className="h-[0.1px] w-full bg-gradient-to-r bg-zinc-400 mb-4" />
         <p className="text-xl font-semibold">proof of work.</p>
       </div>
 
@@ -40,7 +40,7 @@ export default function Projects() {
       </div>
 
       {/* Footer Separator */}
-      <p className="h-[1px] w-full bg-gradient-to-r from-white to-black mt-8 mb-6" />
+      <p className="h-[0.1px] w-full bg-gradient-to-r bg-zinc-400 mt-8 mb-6" />
 
       {/* Footer */}
       <Footer />
