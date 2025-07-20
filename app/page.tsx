@@ -7,8 +7,8 @@ import { BackgroundBeamsTracingBeam } from "./components/ui/tracing-beam";
 export default function Home() {
   return (
 
-    <BackgroundBeamsTracingBeam className="">
-      <div className="flex flex-col min-h-scree">
+    <BackgroundBeamsTracingBeam className=" min-h-screen">
+      <div className="">
         <Header />
         <AboutMe />
         <Skills/>

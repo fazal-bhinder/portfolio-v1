@@ -24,10 +24,41 @@ export const BackgroundBeamsTracingBeam = ({
   const contentRef = useRef<HTMLDivElement>(null);
   const [svgHeight, setSvgHeight] = useState(0);
 
-  useEffect(() => {
+  // Function to update SVG height
+  const updateSvgHeight = () => {
     if (contentRef.current) {
       setSvgHeight(contentRef.current.offsetHeight);
     }
+  };
+
+  useEffect(() => {
+    updateSvgHeight();
+    
+    // Create a ResizeObserver to watch for content changes
+    const resizeObserver = new ResizeObserver(() => {
+      updateSvgHeight();
+    });
+    
+    // Create a MutationObserver to watch for DOM changes (like adding/removing projects)
+    const mutationObserver = new MutationObserver(() => {
+      // Use setTimeout to ensure DOM has updated before measuring
+      setTimeout(updateSvgHeight, 100);
+    });
+
+    if (contentRef.current) {
+      resizeObserver.observe(contentRef.current);
+      mutationObserver.observe(contentRef.current, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+      });
+    }
+
+    // Cleanup observers on unmount
+    return () => {
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+    };
   }, []);
 
   const y1 = useSpring(

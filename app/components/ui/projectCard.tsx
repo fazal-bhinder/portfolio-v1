@@ -29,7 +29,8 @@ export default function ProjectCard({
         hover:border-primary
         rounded-lg p-4 flex flex-col sm:flex-row items-start gap-4 
         w-full max-w-4xl mx-auto group shadow-md
-        dark:hover:shadow-white/25 mb-2
+        hover:shadow-black/25 mb-2
+        dark:hover:shadow-white/25
       `}
     >
       <div className="w-full sm:w-32 h-48 sm:h-28 relative shrink-0 rounded-md overflow-hidden">

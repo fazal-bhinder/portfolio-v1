@@ -24,13 +24,13 @@ export const projects = [
     githubUrl: "https://github.com/fazal-bhinder/medium?tab=readme-ov-file",
   },
   {
-    title: "Formla 1",
-    description: "Inspired by the thrill and intensity of Formula 1. It features a dynamic fullscreen video background, iconic quotes from drivers, and a sleek, responsive design.",
-    imageSrc: F1,
-    liveUrl: "https://formula-01.netlify.app/",
-    githubUrl: "https://github.com/fazal-bhinder/formula-1",
+    title: "Muzic",
+    description: "Developed a Spotify-like SaaS app allowing users to host and join live music streams. Features include collaborative song queues with upvote/downvote functionality, and a clean interface.",
+    imageSrc: MuzicImg,
+    liveUrl: "https://github.com/fazal-bhinder/muzic",
+    githubUrl: "https://github.com/fazal-bhinder/muzic",
   },
-    {
+  {
     title: "Old Portfolio",
     description: "This is my old portfolio website, showcasing my skills and projects as a full stack developer. It features a clean design, responsive layout, and highlights my work.",
     imageSrc: Resume,
@@ -45,11 +45,11 @@ export const projects = [
     githubUrl: "https://github.com/fazal-bhinder/paytm?tab=readme-ov-file",
   },
   {
-    title: "Muzic",
-    description: "Developed a Spotify-like SaaS app allowing users to host and join live music streams. Features include collaborative song queues with upvote/downvote functionality, and a clean interface.",
-    imageSrc: MuzicImg,
-    liveUrl: "https://github.com/fazal-bhinder/muzic",
-    githubUrl: "https://github.com/fazal-bhinder/muzic",
+    title: "Formla 1",
+    description: "Inspired by the thrill and intensity of Formula 1. It features a dynamic fullscreen video background, iconic quotes from drivers, and a sleek, responsive design.",
+    imageSrc: F1,
+    liveUrl: "https://formula-01.netlify.app/",
+    githubUrl: "https://github.com/fazal-bhinder/formula-1",
   },
   {
     title: "Todo App",
