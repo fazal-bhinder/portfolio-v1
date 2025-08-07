@@ -11,7 +11,7 @@ import CryptoPunks from "@/public/projects/CryptoPunks.jpeg";
 export const projects = [
   {
     title: "TrashAI",
-    description: "Never write from your code from scratch again. Kickstart your coding projects with TrashAI,your code AI assistant.",
+    description: "Never write your code from scratch again. Kickstart your coding projects with TrashAI,your code AI assistant.",
     imageSrc: TrashAI,
     liveUrl: "https://trashai.vercel.app/",
     githubUrl: "https://github.com/fazal-bhinder/TrashAI",
