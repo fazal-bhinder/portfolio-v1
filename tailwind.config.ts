@@ -1,10 +1,10 @@
-module.exports = {
+const config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: ["class"],
+  darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
@@ -19,3 +19,5 @@ module.exports = {
   },
   plugins: [],
 };
+
+export default config;

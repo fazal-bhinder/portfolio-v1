@@ -12,28 +12,13 @@ const Skills = () => {
   const technologies = [
     { name: "React", image: "/skills/react.png" },
     { name: "Next.js", image: "/skills/nextjs.png" },
-    { name: "Javascript", image: "/skills/javascript.png" },
     { name: "Typescript", image: "/skills/typescript.png" },
     { name: "Python", image: "/skills/python.png" },
-    { name: "C++", image: "/skills/c++.png" },
     { name: "Node.js", image: "/skills/nodejs.png" },
-    { name: "HTML5", image: "/skills/HTML5.png" },
-    { name: "CSS3", image: "/skills/CSS3.png" },
     { name: "Docker", image: "/skills/docker.png" },
     { name: "FastAPI", image: "/skills/FastAPI.png" },
-    { name: "Git", image: "/skills/Git.png" },
-    { name: "Github", image: "/skills/GitHub.png" },
     { name: "MongoDb", image: "/skills/mongodb.png" },
-    { name: "Postman", image: "/skills/Postman.png" },
-    { name: "Prisma", image: "/skills/prisma.webp" },
-    { name: "TailwindCSS", image: "/skills/TailwindCSS.png" },
-    { name: "Redis", image: "/skills/Redis.png" },
-    { name: "PostgreSQL", image: "/skills/PostgreSQL.png" },
-    { name: "C", image: "/skills/C.png" },
-    { name: "Figma", image: "/skills/Figma.png" },
-    { name: "Express", image: "/skills/Express.png" },
-    { name: "Motion", image: "/skills/motion.webp" },
-    { name: "GSAP", image: "/skills/gsap.webp" },
+    { name: "PostgreSQL", image: "/skills/PostgreSQL.png" }
   ];
 
   return (
@@ -43,7 +28,7 @@ const Skills = () => {
       initial="hidden"
       animate="show"
     >
-      <motion.p className="text-xl font-semibold mb-4">skills i have.</motion.p>
+      <motion.p className="text-xl font-semibold mb-4">generally i be with.</motion.p>
 
       <div className="flex flex-wrap gap-3">
         {technologies.map((tech, index) => (

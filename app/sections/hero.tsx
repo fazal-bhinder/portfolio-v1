@@ -2,10 +2,10 @@
 
 import { motion } from "framer-motion";
 import { ThemeSwitch } from "../theme/themeswitch";
-import { FlipWords } from "./ui/filpword";
-import { MainImg } from "./ui/mainImg";
+import { FlipWords } from "../components/ui/filpword";
+import { MainImg } from "../components/ui/mainImg";
 
-export default function Header() {
+export default function Hero() {
   const words = ["Software Engineer", "Full Stack Developer"];
 
   return (
@@ -28,10 +28,10 @@ export default function Header() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            <h1 className="text-3xl md:text-4xl font-bold">Fazal Singh</h1>
+            <h1 className="text-3xl md:text-4xl font-bold font-serif">Fazal Singh</h1>
             <div className="flex items-center md:mr-24 space-x-4">
               <a
-                href="https://drive.google.com/file/d/1H0BA1bNTfWHXjEMFuXULk0WINHbn7U_A/view"
+                href="https://drive.google.com/file/d/1Y3egMUpuq31h7ekvWLI4snaV-IL5cctR/view"
                 target="_blank"
                 rel="noreferrer"
               >

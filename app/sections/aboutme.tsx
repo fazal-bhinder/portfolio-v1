@@ -15,16 +15,18 @@ export default function AboutMe() {
       initial="hidden"
       animate="show"
     >
-      <p className="text-xl font-semibold">a bit about me.</p>
 
-      <p className="text-zinc-500 mt-2 text-base">
+      <p className="text-zinc-500 mt-3 text-base">
         i&#39;m a 23-year-old full stack developer based in India.
       </p>
 
-      <p className="text-zinc-500 mt-2 text-base">
+      <p className="text-zinc-500 mt-4 text-base">
         an undergrate computer science student and{" "}
         <a className="border-b-2 border-current pb-0.5">full stack developer.</a>{" "}
-        usally i spend most of my time in building something or learning some new technologie. i also love to watch{" "}
+        usally i spend most of my time in building something or learning some new technologie. 
+      </p>
+      <p className="text-zinc-500 mt-4 text-base">
+        i also love to watch{" "}
         <a className="border-b-2 border-current pb-0.5 hover:scale-105 transition duration-300">movies</a>{" "}
         and jamming the{" "}
         <a
@@ -34,11 +36,7 @@ export default function AboutMe() {
           muzic 
         </a>
         .
-      </p>
-      <p className="text-zinc-500 mt-2 text-base">
         you’ll often find me contributing to open-source or building side projects.
-        i love to explore new technologies and frameworks, and i’m always eager to
-        learn and grow as a developer.
       </p>
     </motion.div>
   );

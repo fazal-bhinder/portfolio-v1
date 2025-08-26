@@ -9,8 +9,9 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="system"
-      enableSystem
+      defaultTheme="light"
+      enableSystem={false}
+      storageKey="theme"
       disableTransitionOnChange={false}
       {...props}
     >
@@ -20,7 +21,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 }
 
 export const ThemeSwitch: React.FC = () => {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -28,7 +29,8 @@ export const ThemeSwitch: React.FC = () => {
   }, []);
 
   const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
+    const next = (resolvedTheme === "dark" ? "light" : "dark") as "light" | "dark";
+    setTheme(next);
   };
 
   if (!mounted) {
@@ -42,11 +44,11 @@ export const ThemeSwitch: React.FC = () => {
   return (
     <button
       id="theme-toggle"
-      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+      aria-label={`Switch to ${resolvedTheme === "light" ? "dark" : "light"} mode`}
       onClick={toggleTheme}
       className="p-2 rounded-xl cursor-pointer text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all duration-200"
     >
-      {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+      {resolvedTheme === "light" ? <Moon size={18} /> : <Sun size={18} />}
     </button>
   );
 };

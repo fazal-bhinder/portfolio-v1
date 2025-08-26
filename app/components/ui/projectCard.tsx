@@ -33,7 +33,7 @@ export default function ProjectCard({
         dark:hover:shadow-white/25
       `}
     >
-      <div className="w-full sm:w-32 h-48 sm:h-28 relative shrink-0 rounded-md overflow-hidden">
+      <div className="w-full sm:w-32 h-40 sm:h-20 relative shrink-0 rounded-md overflow-hidden">
         <Image
           src={imageSrc}
           alt={title}
@@ -43,7 +43,7 @@ export default function ProjectCard({
       </div>
       <div className="flex-1 w-full">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-          <h2 className="text-xl font-semibold">{title}</h2>
+          <h2 className="text-xl font-serif font-semibold">{title}</h2>
           <div className="flex items-center gap-3">
             <a
               href={demoUrl}
@@ -69,7 +69,7 @@ export default function ProjectCard({
             </a>
           </div>
         </div>
-        <p className="text-sm mt-2 leading-relaxed">{description}</p>
+        <p className="text-sm text-gray-500 mt-2 leading-relaxed">{description}</p>
       </div>
     </div>
   );

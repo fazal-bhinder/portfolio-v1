@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { projects } from "../data/projects";
-import { Footer } from "./footer";
-import ProjectCard from "./ui/projectCard";
+import { Footer } from "../sections/footer";
+
 import { motion, AnimatePresence } from "framer-motion";
+import ProjectCard from "../components/ui/projectCard";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 10 },
