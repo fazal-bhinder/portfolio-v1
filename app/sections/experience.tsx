@@ -34,7 +34,7 @@ const ProfessionalExperience = () => {
         className="text-xl font-semibold mb-6"
         variants={itemVariants}
       >
-        experience:
+        experience.
       </motion.h2>
 
       <div className="space-y-8">

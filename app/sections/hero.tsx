@@ -8,15 +8,42 @@ import { MainImg } from "../components/ui/mainImg";
 export default function Hero() {
   const words = ["Software Engineer", "Full Stack Developer"];
 
+  // Consistent animation variants matching experience section
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    show: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { 
+        duration: 0.6,
+        staggerChildren: 0.1
+      } 
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
+
+  // Special variant for image with x-axis movement
+  const imageVariants = {
+    hidden: { opacity: 0, x: -20 },
+    show: { opacity: 1, x: 0, transition: { duration: 0.5 } }
+  };
+
   return (
-    <div className="flex flex-col">
+    <motion.div 
+      className="flex flex-col"
+      variants={fadeIn}
+      initial="hidden"
+      animate="show"
+    >
       <div className="flex flex-wrap flex-row mt-10 items-start">
         <motion.div
           whileHover={{ scale: 0.97 }}
           className="cursor-pointer hover:brightness-75 ml-4 md:ml-24 transition duration-300 md:w-auto"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2, duration: 0.3 }}
+          variants={imageVariants}
         >
           <MainImg />
         </motion.div>
@@ -24,9 +51,7 @@ export default function Hero() {
         <div className="flex flex-col items-start ml-4 mt-2 flex-1">
           <motion.div
             className="md:flex w-full items-center justify-between"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
+            variants={itemVariants}
           >
             <h1 className="text-3xl md:text-4xl font-bold font-serif">Fazal Singh</h1>
             <div className="flex items-center md:mr-24 space-x-4">
@@ -42,18 +67,14 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
+            variants={itemVariants}
           >
             <FlipWords className="text-zinc-500 md:mt-1" words={words} />
           </motion.div>
 
           <motion.div
             className="flex flex-wrap gap-2 md:mt-3"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
+            variants={itemVariants}
           >
             {/* GitHub */}
             <a href="https://github.com/fazal-bhinder" target="_blank" rel="noreferrer">
@@ -143,6 +164,6 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

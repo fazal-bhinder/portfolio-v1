@@ -8,7 +8,7 @@ import ProfessionalExperience from "./sections/experience";
 export default function Home() {
   return (
 
-    <BackgroundBeamsTracingBeam className=" min-h-screen">
+    <BackgroundBeamsTracingBeam >
       <div className="">
         <Hero />
         <AboutMe />

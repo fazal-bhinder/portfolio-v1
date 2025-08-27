@@ -3,8 +3,20 @@
 import { motion } from "framer-motion";
 
 const fadeIn = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  hidden: { opacity: 0, y: 20 },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { 
+      duration: 0.6,
+      staggerChildren: 0.1
+    } 
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
 };
 
 export default function AboutMe() {
@@ -15,17 +27,26 @@ export default function AboutMe() {
       initial="hidden"
       animate="show"
     >
-
-      <p className="text-zinc-500 mt-3 text-base">
+      <motion.p 
+        className="text-zinc-500 mt-3 text-base"
+        variants={itemVariants}
+      >
         i&#39;m a 23-year-old full stack developer based in India.
-      </p>
+      </motion.p>
 
-      <p className="text-zinc-500 mt-4 text-base">
+      <motion.p 
+        className="text-zinc-500 mt-4 text-base"
+        variants={itemVariants}
+      >
         an undergrate computer science student and{" "}
         <a className="border-b-2 border-current pb-0.5">full stack developer.</a>{" "}
         usally i spend most of my time in building something or learning some new technologie. 
-      </p>
-      <p className="text-zinc-500 mt-4 text-base">
+      </motion.p>
+
+      <motion.p 
+        className="text-zinc-500 mt-4 text-base"
+        variants={itemVariants}
+      >
         i also love to watch{" "}
         <a className="border-b-2 border-current pb-0.5 hover:scale-105 transition duration-300">movies</a>{" "}
         and jamming the{" "}
@@ -36,8 +57,8 @@ export default function AboutMe() {
           muzic 
         </a>
         .
-        you’ll often find me contributing to open-source or building side projects.
-      </p>
+        you will often find me contributing to open-source or building side projects.
+      </motion.p>
     </motion.div>
   );
 }
