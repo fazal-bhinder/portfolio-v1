@@ -12,7 +12,7 @@ const Skills = () => {
     { name: "Node.js", image: "/skills/nodejs.png" },
     { name: "FastAPI", image: "/skills/FastAPI.png" },
     { name: "Docker", image: "/skills/docker.png" },
-    { name: "Redis", image: "/skills/redis.png" },
+    { name: "Redis", image: "/skills/Redis.png" },
     { name: "MongoDb", image: "/skills/mongodb.png" },
     { name: "PostgreSQL", image: "/skills/PostgreSQL.png" }
   ];
