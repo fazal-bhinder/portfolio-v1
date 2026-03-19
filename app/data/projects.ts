@@ -1,4 +1,4 @@
-import TrashAI from "/public/projects/TrashAI.jpeg";
+import TrashAI from "@/public/projects/TrashAI.jpeg";
 import MuzicImg from "@/public/projects/muzic.jpeg";
 import MediumImg from "@/public/projects/medium.jpeg"
 import PaytmImg from "@/public/projects/paytm.jpeg";
