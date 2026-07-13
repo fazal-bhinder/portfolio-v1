@@ -20,7 +20,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   );
 }
 
-export const ThemeSwitch: React.FC = () => {
+export const ThemeSwitch: React.FC<{ className?: string }> = ({ className }) => {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
@@ -46,7 +46,9 @@ export const ThemeSwitch: React.FC = () => {
       id="theme-toggle"
       aria-label={`Switch to ${resolvedTheme === "light" ? "dark" : "light"} mode`}
       onClick={toggleTheme}
-      className="p-2 rounded-xl cursor-pointer text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all duration-200"
+      className={`p-2 cursor-pointer hover:text-accent dark:hover:text-accent transition-colors duration-200 ${
+        className ?? "text-zinc-600 dark:text-zinc-400"
+      }`}
     >
       {resolvedTheme === "light" ? <Moon size={18} /> : <Sun size={18} />}
     </button>

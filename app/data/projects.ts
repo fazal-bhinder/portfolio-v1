@@ -6,6 +6,7 @@ import F1 from "@/public/projects/f1.jpeg";
 import GYM from "@/public/projects/gym.jpeg";
 import Resume from "@/public/projects/resume.jpeg";
 import CryptoPunks from "@/public/projects/CryptoPunks.jpeg";
+import SentinelImg from "@/public/projects/sentinel.png";
 
 
 export const projects = [
@@ -15,6 +16,13 @@ export const projects = [
     imageSrc: TrashAI,
     liveUrl: "https://trashai.vercel.app/",
     githubUrl: "https://github.com/fazal-bhinder/TrashAI",
+  },
+  {
+    title: "Sentinel",
+    description: "An LLM observability and data drift tracking tool. Monitors field presence, token counts, and API costs in real-time, alerting on silent failures and schema drift.",
+    imageSrc: SentinelImg,
+    liveUrl: "https://github.com/fazal-bhinder/sentinel",
+    githubUrl: "https://github.com/fazal-bhinder/sentinel",
   },
   {
     title: "CryptoPunks",

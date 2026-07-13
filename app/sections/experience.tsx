@@ -1,88 +1,66 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { experience } from "../data/experience";
+import { RevealText, FadeUp } from "../components/ui/reveal";
 
-
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  show: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { 
-      duration: 0.6,
-      staggerChildren: 0.1
-    } 
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-};
-
-const ProfessionalExperience = () => {
+export default function ProfessionalExperience() {
   return (
-    <motion.div
-      className="px-4 sm:px-8 md:px-16 lg:px-24 mt-10 max-w-6xl mx-auto"
-      variants={fadeIn}
-      initial="hidden"
-      animate="show"
+    <section
+      id="experience"
+      className="mx-auto max-w-[1400px] scroll-mt-24 px-4 py-24 md:px-8 md:py-36"
     >
-    <p className="h-[0.1px] w-full bg-gradient-to-r bg-zinc-400 mb-8" />
-      <motion.h2 
-        className="text-xl font-semibold mb-6"
-        variants={itemVariants}
-      >
-        experience.
-      </motion.h2>
+      <RevealText
+        as="h2"
+        text="Experience"
+        className="font-display text-5xl uppercase leading-[0.9] tracking-[-0.03em] md:text-8xl"
+      />
 
-      <div className="space-y-8">
-        {experience.map((exp) => (
-          <motion.div
+      <div className="mt-16 flex flex-col gap-20 md:mt-24">
+        {experience.map((exp, idx) => (
+          <FadeUp
             key={exp.id}
-            className="block"
-            variants={itemVariants}
+            delay={idx * 0.08}
+            className="grid gap-6 border-t border-ink/15 pt-10 dark:border-bone/15 md:grid-cols-[1fr_2fr] md:gap-12"
           >
-            {/* Header Section */}
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
-              <div className="flex items-center gap-2">
-                <h3 className="font-semibold text-lg">
+            <div>
+              <div className="flex items-center gap-3">
+                <h3 className="text-2xl font-medium leading-tight tracking-tight md:text-4xl">
                   {exp.company}
                 </h3>
                 {exp.isActive && (
-                  <div className="w-2 h-2 bg-green-500 rounded-full" />
+                  <span
+                    title="currently here"
+                    className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-accent"
+                  />
                 )}
               </div>
-              <div className="text-gray-500 text-sm sm:text-right">
-                {exp.duration}
-              </div>
-            </div>
-            
-            {/* Position */}
-            <p className="text-zinc-500 italic text-sm mb-3">
-              {exp.position}
-            </p>
-            
-            {/* Description */}
-            {exp.points ? (
-              <ul className="list-disc pl-5 space-y-2 text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
-                {exp.points.map((point, index) => (
-                  <li key={index} className="marker:text-zinc-400 dark:marker:text-zinc-600">
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
-                {exp.description}
+              <p className="mt-3 text-[15px] text-ash dark:text-smoke">
+                {exp.position}
               </p>
-            )}
-          </motion.div>
+              <p className="mt-1 font-label text-xs uppercase text-smoke dark:text-ash">
+                {exp.duration}
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-4 md:pt-2">
+              {exp.points ? (
+                exp.points.map((point, index) => (
+                  <p
+                    key={index}
+                    className="text-base leading-relaxed text-ash transition-colors duration-300 hover:text-ink dark:text-smoke dark:hover:text-bone"
+                  >
+                    {point}
+                  </p>
+                ))
+              ) : (
+                <p className="text-base leading-relaxed text-ash dark:text-smoke">
+                  {exp.description}
+                </p>
+              )}
+            </div>
+          </FadeUp>
         ))}
       </div>
-    </motion.div>
+    </section>
   );
-};
-
-export default ProfessionalExperience;
+}

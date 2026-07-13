@@ -1,2 +1,39 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: var(--font-grotesk);
+  --font-display: var(--font-archivo);
+  --font-label: var(--font-spacemono);
+}
+
+/* monolog-derived palette: warm near-black, warm bone, warm grays */
+@theme {
+  --color-accent: #ff4a1c;
+  --color-ink: #0a0a09;
+  --color-bone: #e8e8e3;
+  --color-smoke: #938f8a;
+  --color-ash: #6b645c;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: #ff4a1c;
+  color: #e8e8e3;
+}
+
+/* halftone dot texture over videos */
+.halftone {
+  background-image: radial-gradient(rgba(232, 232, 227, 0.07) 1px, transparent 1.2px);
+  background-size: 4px 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
