@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Archivo_Black, Space_Mono } from "next/font/google";
+import { Space_Grotesk, Anton, Space_Mono, Unbounded, Saira_Extra_Condensed, Teko } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./theme/themeswitch";
 import SmoothScroll from "./components/ui/smoothscroll";
@@ -11,10 +11,31 @@ const grotesk = Space_Grotesk({
   display: "swap",
 });
 
-const archivo = Archivo_Black({
+const anton = Anton({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-archivo",
+  variable: "--font-anton",
+  display: "swap",
+});
+
+const logoFont = Unbounded({
+  weight: "800",
+  subsets: ["latin"],
+  variable: "--font-unbounded",
+  display: "swap",
+});
+
+const saira = Saira_Extra_Condensed({
+  weight: ["800", "900"],
+  subsets: ["latin"],
+  variable: "--font-saira",
+  display: "swap",
+});
+
+const teko = Teko({
+  weight: ["700"],
+  subsets: ["latin"],
+  variable: "--font-teko",
   display: "swap",
 });
 
@@ -38,7 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${grotesk.variable} ${archivo.variable} ${spacemono.variable} font-sans antialiased tracking-[-0.01em] bg-bone text-ink dark:bg-ink dark:text-bone`}
+        className={`${grotesk.variable} ${anton.variable} ${spacemono.variable} ${logoFont.variable} ${saira.variable} ${teko.variable} font-sans antialiased tracking-[-0.01em] bg-bone text-ink dark:bg-ink dark:text-bone`}
       >
         <ThemeProvider
           attribute="class"

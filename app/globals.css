@@ -4,7 +4,8 @@
 
 @theme inline {
   --font-sans: var(--font-grotesk);
-  --font-display: var(--font-archivo);
+  --font-display: var(--font-anton);
+  --font-logo: var(--font-teko);
   --font-label: var(--font-spacemono);
 }
 

@@ -1,13 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { IconWorld } from "@tabler/icons-react";
 import { RevealText } from "../components/ui/reveal";
+import { FazalWordmark, SinghWordmark } from "../components/ui/wordmark";
 
 export default function Hero() {
   const reduce = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [videoReady, setVideoReady] = useState(false);
+
+  // a fast (local) video can fire canplay before hydration attaches
+  // the listener, so also check readiness on mount
+  useEffect(() => {
+    if (videoRef.current && videoRef.current.readyState >= 3) {
+      setVideoReady(true);
+    }
+  }, []);
 
   return (
     <section
@@ -17,16 +27,16 @@ export default function Hero() {
       {/* video background: dark storm clouds, blurred and darkened */}
       {!reduce && (
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
           onCanPlay={() => setVideoReady(true)}
-          className={`absolute inset-0 h-full w-full scale-110 object-cover blur-md transition-opacity duration-1000 ${
-            videoReady ? "opacity-50" : "opacity-0"
-          }`}
-          src="https://assets.mixkit.co/videos/11526/11526-360.mp4"
+          className={`absolute inset-0 h-full w-full scale-110 object-cover blur-md transition-opacity duration-1000 ${videoReady ? "opacity-50" : "opacity-0"
+            }`}
+          src="/clouds.mp4"
         />
       )}
 
@@ -61,21 +71,37 @@ export default function Hero() {
         <RevealText
           as="p"
           delay={0.8}
-          text="full stack engineer, currently shipping e-commerce at Carpetstory."
+          text="full stack engineer."
           className="mt-6 max-w-xs text-[15px] leading-snug text-smoke md:max-w-sm md:text-base"
         />
       </div>
 
-      {/* giant wordmark, fully visible at the bottom */}
-      <div className="relative z-10 w-full overflow-hidden px-2 pb-4 md:pb-6">
-        <motion.h1
-          initial={reduce ? { opacity: 0 } : { y: "110%" }}
-          animate={reduce ? { opacity: 1 } : { y: 0 }}
-          transition={{ duration: 1.1, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="whitespace-nowrap text-center font-display uppercase leading-[0.9] tracking-[-0.03em] text-[12.5vw] text-bone"
+      {/* giant wordmark, fully visible at the bottom — words rise one after another */}
+      <div className="relative z-10 w-full px-2 pb-4 md:pb-6">
+        <h1
+          aria-label="Fazal Singh"
+          className="mx-auto flex w-full max-w-xl items-end justify-center gap-[3.4%] text-smoke md:max-w-4xl"
         >
-          Fazal Singh
-        </motion.h1>
+          {[
+            { Word: FazalWordmark, width: "49.6%", delay: 0.9 },
+            { Word: SinghWordmark, width: "47%", delay: 1.12 },
+          ].map(({ Word, width, delay }) => (
+            <span
+              key={delay}
+              className="block overflow-hidden"
+              style={{ width }}
+            >
+              <motion.span
+                className="block"
+                initial={reduce ? { opacity: 0 } : { y: "110%" }}
+                animate={reduce ? { opacity: 1 } : { y: 0 }}
+                transition={{ duration: 1.1, delay, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <Word className="h-auto w-full" />
+              </motion.span>
+            </span>
+          ))}
+        </h1>
       </div>
     </section>
   );

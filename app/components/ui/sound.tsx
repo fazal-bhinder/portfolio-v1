@@ -87,7 +87,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
     musicRef.current = music;
 
     const isInteractive = (target: EventTarget | null) =>
-      target instanceof Element && target.closest("a, button");
+      target instanceof Element && target.closest("a, button, [data-sound]");
 
     // browsers only allow audio after a user gesture: unlock everything
     // on the first click, then start the music
@@ -105,7 +105,7 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
       const el = isInteractive(e.target);
       const from =
         e.relatedTarget instanceof Element &&
-        e.relatedTarget.closest("a, button");
+        e.relatedTarget.closest("a, button, [data-sound]");
       if (el && el !== from) playTick("hover");
     };
 

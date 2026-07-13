@@ -1,19 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { RevealText, FadeUp } from "../components/ui/reveal";
-
-const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Work", href: "#work" },
-  {
-    label: "Resume",
-    href: "https://drive.google.com/file/d/1MJR8sR_qA4PdD--87i3S1TgetXMgnkwn/view?usp=sharing",
-    external: true,
-  },
-];
 
 const socials = [
   { label: "GitHub", href: "https://github.com/fazal-bhinder" },
@@ -23,28 +12,38 @@ const socials = [
 
 export const Footer = () => {
   const reduce = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [videoReady, setVideoReady] = useState(false);
+
+  // a fast (local) video can fire canplay before hydration attaches
+  // the listener, so also check readiness on mount
+  useEffect(() => {
+    if (videoRef.current && videoRef.current.readyState >= 3) {
+      setVideoReady(true);
+    }
+  }, []);
 
   return (
     <footer id="contact" className="bg-ink text-bone">
-      {/* full-viewport video CTA, monolog style */}
-      <section className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6">
+      {/* full-viewport video CTA: same storm clouds as the hero */}
+      <section className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6 pb-40 md:pb-0">
         {!reduce && (
           <video
+            ref={videoRef}
             autoPlay
             muted
             loop
             playsInline
             preload="metadata"
             onCanPlay={() => setVideoReady(true)}
-            className={`absolute inset-0 h-full w-full object-cover grayscale transition-opacity duration-1000 ${
-              videoReady ? "opacity-40" : "opacity-0"
+            className={`absolute inset-0 h-full w-full scale-110 object-cover blur-md transition-opacity duration-1000 ${
+              videoReady ? "opacity-50" : "opacity-0"
             }`}
-            src="https://assets.mixkit.co/videos/948/948-360.mp4"
+            src="/clouds.mp4"
           />
         )}
         <div className="halftone pointer-events-none absolute inset-0" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/70 via-transparent to-ink/90" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/80 via-transparent to-ink/80" />
 
         <div className="relative z-10 flex flex-col items-center text-center">
           <RevealText
@@ -74,75 +73,9 @@ export const Footer = () => {
             </p>
           </FadeUp>
         </div>
-      </section>
 
-      {/* footer navigation + details */}
-      <section className="mx-auto max-w-[1400px] px-4 pb-10 pt-20 md:px-8 md:pt-28">
-        <div className="grid gap-16 md:grid-cols-[1.4fr_1fr]">
-          {/* big nav list */}
-          <div>
-            <p className="font-label text-xs uppercase text-ash">
-              (navigation)
-            </p>
-            <nav className="mt-8 flex flex-col">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target={link.external ? "_blank" : undefined}
-                  rel={link.external ? "noreferrer" : undefined}
-                  className="group flex items-baseline justify-between border-b border-bone/15 py-5 text-4xl font-medium tracking-tight text-smoke transition-all duration-300 hover:pl-4 hover:text-bone md:text-5xl"
-                >
-                  {link.label}
-                  <span className="text-2xl opacity-0 transition-all duration-300 group-hover:opacity-100">
-                    &#8599;
-                  </span>
-                </a>
-              ))}
-            </nav>
-          </div>
-
-          {/* details + socials */}
-          <div className="flex flex-col gap-14 md:pt-1">
-            <div>
-              <p className="font-label text-xs uppercase text-ash">(details)</p>
-              <a
-                href="mailto:bhinderfazal@gmail.com"
-                className="mt-6 block w-fit text-lg font-medium text-bone underline decoration-bone/30 underline-offset-4 transition-colors duration-200 hover:decoration-bone"
-              >
-                bhinderfazal@gmail.com
-              </a>
-              <p className="mt-4 max-w-xs text-base leading-relaxed text-smoke">
-                based in India.
-                <br />
-                working worldwide.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-label text-xs uppercase text-ash">(socials)</p>
-              <div className="mt-6 flex flex-col gap-2">
-                {socials.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex w-fit items-center gap-2 text-lg font-medium text-smoke transition-colors duration-200 hover:text-bone"
-                  >
-                    {social.label}
-                    <span className="inline-block transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
-                      &#8599;
-                    </span>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* bottom bar */}
-        <div className="mt-24 flex items-center justify-between border-t border-bone/15 pt-6">
+        {/* bottom bar, overlaid on the video */}
+        <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center gap-4 border-t border-bone/15 bg-ink/30 px-4 py-5 backdrop-blur-sm md:flex-row md:justify-between md:px-8">
           <p className="text-sm text-ash">
             &copy; 2026 fazal. built and maintained by{" "}
             <a
@@ -155,6 +88,21 @@ export const Footer = () => {
             </a>
             .
           </p>
+
+          <div className="flex items-center gap-5">
+            {socials.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                className="text-sm text-smoke transition-colors duration-200 hover:text-bone"
+              >
+                {social.label} &#8599;
+              </a>
+            ))}
+          </div>
+
           <a
             href="#top"
             className="group flex items-center gap-2 text-sm text-smoke transition-colors duration-200 hover:text-bone"

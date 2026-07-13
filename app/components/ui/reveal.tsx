@@ -13,12 +13,16 @@ export function RevealText({
   as: Tag = "div",
   delay = 0,
   once = true,
+  stagger = 0.045,
+  duration = 0.75,
 }: {
   text: string;
   className?: string;
   as?: "h1" | "h2" | "h3" | "p" | "div" | "span";
   delay?: number;
   once?: boolean;
+  stagger?: number;
+  duration?: number;
 }) {
   const reduce = useReducedMotion();
   const words = text.split(" ");
@@ -29,7 +33,7 @@ export function RevealText({
       initial="hidden"
       whileInView="show"
       viewport={{ once, amount: 0.5 }}
-      transition={{ staggerChildren: 0.045, delayChildren: delay }}
+      transition={{ staggerChildren: stagger, delayChildren: delay }}
       className={className}
       aria-label={text}
     >
@@ -47,7 +51,7 @@ export function RevealText({
                 ? { opacity: 1, transition: { duration: 0.4 } }
                 : {
                     y: 0,
-                    transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
+                    transition: { duration, ease: [0.16, 1, 0.3, 1] },
                   },
             }}
           >

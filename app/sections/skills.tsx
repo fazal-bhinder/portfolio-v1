@@ -63,6 +63,7 @@ export default function Skills() {
               {group.items.map((item) => (
                 <motion.li
                   key={item}
+                  data-sound
                   whileHover={{ x: 10 }}
                   transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   className="w-fit cursor-default text-xl font-medium tracking-tight text-ash transition-colors duration-300 hover:text-ink dark:text-smoke dark:hover:text-bone md:text-2xl"

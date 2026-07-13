@@ -67,6 +67,32 @@ export default function Projects() {
                 <p className="mt-2 hidden max-w-xl text-sm leading-relaxed text-smoke transition-colors duration-300 group-hover:text-ash dark:text-ash dark:group-hover:text-smoke md:block">
                   {project.description}
                 </p>
+
+                {/* live/github links, visible only on mobile */}
+                <div className="mt-1.5 flex items-center gap-4 md:hidden">
+                  <span className="text-[13px] text-smoke dark:text-ash">
+                    live &#8599;
+                  </span>
+                  <span
+                    role="link"
+                    tabIndex={0}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      window.open(project.githubUrl, "_blank", "noopener");
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.open(project.githubUrl, "_blank", "noopener");
+                      }
+                    }}
+                    className="text-[13px] text-smoke dark:text-ash"
+                  >
+                    github &#8599;
+                  </span>
+                </div>
               </div>
 
               <div className="hidden items-center gap-6 md:flex">
