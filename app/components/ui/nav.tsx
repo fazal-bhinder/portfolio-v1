@@ -18,7 +18,10 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
 
   useMotionValueEvent(scrollY, "change", (v) => {
-    setScrolled(v > window.innerHeight * 0.7);
+    // stay transparent over the dark hero and the dark footer
+    const footer = document.getElementById("contact");
+    const overFooter = footer ? v + 64 >= footer.offsetTop : false;
+    setScrolled(v > window.innerHeight * 0.7 && !overFooter);
   });
 
   return (
