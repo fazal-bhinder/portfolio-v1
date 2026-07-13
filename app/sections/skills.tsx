@@ -2,19 +2,55 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { 
+  SiTypescript, 
+  SiJavascript,
+  SiPython, 
+  SiReact, 
+  SiNextdotjs, 
+  SiNodedotjs, 
+  SiFastapi, 
+  SiDocker, 
+  SiRedis, 
+  SiMongodb, 
+  SiPostgresql,
+  SiTailwindcss,
+  SiFramer,
+  SiRabbitmq,
+  SiPrisma,
+  SiSanity,
+  SiGithubactions,
+  SiCloudflare,
+  SiVercel,
+  SiHono,
+  SiPostman,
+  SiGit
+} from "react-icons/si";
 
 const Skills = () => {
   const technologies = [
-    { name: "Typescript", image: "/skills/typescript.png" },
-    { name: "Python", image: "/skills/python.png" },
-    { name: "React", image: "/skills/react.png" },
-    { name: "Next.js", image: "/skills/nextjs.png" },
-    { name: "Node.js", image: "/skills/nodejs.png" },
-    { name: "FastAPI", image: "/skills/FastAPI.png" },
-    { name: "Docker", image: "/skills/docker.png" },
-    { name: "Redis", image: "/skills/Redis.png" },
-    { name: "MongoDb", image: "/skills/mongodb.png" },
-    { name: "PostgreSQL", image: "/skills/PostgreSQL.png" }
+    { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+    { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+    { name: "Python", icon: SiPython, color: "#3776AB" },
+    { name: "React", icon: SiReact, color: "#61DAFB" },
+    { name: "Next.js", icon: SiNextdotjs, color: "#000000" },
+    { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
+    { name: "FastAPI", icon: SiFastapi, color: "#009688" },
+    { name: "Hono.js", icon: SiHono, color: "#E36002" },
+    { name: "Docker", icon: SiDocker, color: "#2496ED" },
+    { name: "Redis", icon: SiRedis, color: "#FF4438" },
+    { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
+    { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
+    { name: "Prisma", icon: SiPrisma, color: "#2D3748" },
+    { name: "Sanity", icon: SiSanity, color: "#F03E2F" },
+    { name: "RabbitMQ", icon: SiRabbitmq, color: "#FF6600" },
+    { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
+    { name: "Framer Motion", icon: SiFramer, color: "#0055FF" },
+    { name: "GitHub Actions", icon: SiGithubactions, color: "#2088FF" },
+    { name: "Cloudflare", icon: SiCloudflare, color: "#F38020" },
+    { name: "Vercel", icon: SiVercel, color: "#000000" },
+    { name: "Git", icon: SiGit, color: "#F05032" },
+    { name: "Postman", icon: SiPostman, color: "#FF6C37" }
   ];
 
   // Consistent animation variants matching experience section
@@ -41,16 +77,17 @@ const Skills = () => {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08, // Slightly faster stagger for multiple items
+        staggerChildren: 0.05, // Slightly faster stagger for multiple items
         delayChildren: 0.1
       }
     }
   };
 
   const skillItemVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, y: 10 },
     show: { 
       opacity: 1,
+      y: 0,
       transition: { 
         duration: 0.4
       } 
@@ -75,23 +112,25 @@ const Skills = () => {
         className="flex flex-wrap gap-3"
         variants={skillsContainerVariants}
       >
-        {technologies.map((tech, index) => (
-          <motion.div
-            key={index}
-            className="rounded-lg text-center px-2 py-1 border border-zinc-200 dark:border-zinc-700 text-sm cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-white/25 flex items-center"
-            variants={skillItemVariants}
-          >
-            <Image
-              src={tech.image}
-              alt={tech.name}
-              width={25}
-              height={25}
-              className="rounded-md hover:border-gray-500 hover:border-1 p-1 hover:scale-105 transition duration-300"
-              loading="lazy"
-            />
-            <span>{tech.name}</span>
-          </motion.div>
-        ))}
+        {technologies.map((tech, index) => {
+          const IconComponent = tech.icon;
+          return (
+            <motion.div
+              key={index}
+              className="rounded-lg text-center px-2.5 py-1.5 border border-zinc-200 dark:border-zinc-800 text-sm cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-white/10 flex items-center gap-2 bg-zinc-50/50 dark:bg-zinc-900/50 backdrop-blur-sm"
+              variants={skillItemVariants}
+            >
+              {IconComponent && (
+                <IconComponent 
+                  size={18}
+                  style={{ color: tech.color }}
+                  className="hover:scale-105 transition duration-300 shrink-0"
+                />
+              )}
+              <span className="font-medium text-zinc-700 dark:text-zinc-300">{tech.name}</span>
+            </motion.div>
+          );
+        })}
       </motion.div>
     </motion.div>
   );

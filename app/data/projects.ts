@@ -11,7 +11,7 @@ import CryptoPunks from "@/public/projects/CryptoPunks.jpeg";
 export const projects = [
   {
     title: "TrashAI",
-    description: "Never write your code from scratch again. Kickstart your coding projects with TrashAI,your code AI assistant.",
+    description: "Built a browser-based IDE (Next.js, WebContainers) that uses GPT-4o to scaffold full-stack projects from natural language and boots the generated code right in the browser, no local setup needed, tuned for sub-2-second load times.",
     imageSrc: TrashAI,
     liveUrl: "https://trashai.vercel.app/",
     githubUrl: "https://github.com/fazal-bhinder/TrashAI",
@@ -25,7 +25,7 @@ export const projects = [
   },
   {
     title: "Medium Clone",
-    description: "Created a Medium-style blogging platform Implemented authentication, CRUD operations, and a clean editor interface.",
+    description: "Built a full-stack publishing platform (JWT auth, rich-text editor, infinite scroll) on Hono.js and Cloudflare Workers, using Prisma Accelerate to keep API response times steady under concurrent load.",
     imageSrc: MediumImg,
     liveUrl: "https://medium-frontend-beta.vercel.app/",
     githubUrl: "https://github.com/fazal-bhinder/medium?tab=readme-ov-file",

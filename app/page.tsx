@@ -12,8 +12,8 @@ export default function Home() {
       <div className="">
         <Hero />
         <AboutMe />
-        <Skills/>
         <ProfessionalExperience/>
+        <Skills/>
         <Projects/>
       </div>
     </BackgroundBeamsTracingBeam>

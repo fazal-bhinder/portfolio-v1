@@ -60,14 +60,24 @@ const ProfessionalExperience = () => {
             </div>
             
             {/* Position */}
-            <p className="text-gray-500 italic text-sm mb-4">
+            <p className="text-zinc-500 italic text-sm mb-3">
               {exp.position}
             </p>
             
             {/* Description */}
-            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-              {exp.description}
-            </p>
+            {exp.points ? (
+              <ul className="list-disc pl-5 space-y-2 text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
+                {exp.points.map((point, index) => (
+                  <li key={index} className="marker:text-zinc-400 dark:marker:text-zinc-600">
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
+                {exp.description}
+              </p>
+            )}
           </motion.div>
         ))}
       </div>

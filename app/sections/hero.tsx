@@ -56,7 +56,7 @@ export default function Hero() {
             <h1 className="text-3xl md:text-4xl font-bold font-serif">Fazal Singh</h1>
             <div className="flex items-center md:mr-24 space-x-4">
               <a
-                href="https://drive.google.com/file/d/1gF7viB77RjW4uV52ruau8L9GNtujFr-b/view"
+                href="https://drive.google.com/file/d/1MJR8sR_qA4PdD--87i3S1TgetXMgnkwn/view?usp=sharing"
                 target="_blank"
                 rel="noreferrer"
               >

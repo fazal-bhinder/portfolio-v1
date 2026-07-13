@@ -28,28 +28,33 @@ export default function AboutMe() {
       animate="show"
     >
       <motion.p 
-        className="text-zinc-500 mt-3 text-base"
+        className="text-zinc-500 mt-3 text-base leading-relaxed"
         variants={itemVariants}
       >
-        i&#39;m a 23-year-old full stack developer based in India.
+        i&#39;m a 23-year-old full stack engineer based in India.
       </motion.p>
 
       <motion.p 
-        className="text-zinc-500 mt-4 text-base"
+        className="text-zinc-500 mt-4 text-base leading-relaxed"
         variants={itemVariants}
       >
-        an undergrate computer science student and{" "}
-        <a className="border-b-2 border-current pb-0.5">full stack developer.</a>{" "}
-        usally i spend most of my time in building something or learning some new technologie. 
+        i graduated with a B.Tech in Computer Science in July 2025. i like building the whole thing, not just the ticket: the feature, the pipeline behind it, and the dashboard that flags it when something breaks.
       </motion.p>
 
       <motion.p 
-        className="text-zinc-500 mt-4 text-base"
+        className="text-zinc-500 mt-4 text-base leading-relaxed"
+        variants={itemVariants}
+      >
+        from shipping full e-commerce platforms solo to scripting automated data pipelines and building dev tooling, i'm just as comfortable in FastAPI, in Next.js, or in a three-line Bash script running at 6am.
+      </motion.p>
+
+      <motion.p 
+        className="text-zinc-500 mt-4 text-base leading-relaxed"
         variants={itemVariants}
       >
         i also love to watch{" "}
         <a className="border-b-2 border-current pb-0.5 hover:scale-105 transition duration-300">movies</a>{" "}
-        and jamming the{" "}
+        and jamming to{" "}
         <a
           href="https://open.spotify.com/playlist/3E0Dt0p8hGw0Qprxp6KJ1u?si=45rNyaV6RPyzOen_mAXCDQ&pi=gKmJTgo7RBCvh"
           className="border-b-2 border-current pb-0.5"
