@@ -54,18 +54,18 @@ type SoundContextValue = {
 };
 
 const SoundContext = React.createContext<SoundContextValue>({
-  enabled: true,
+  enabled: false,
   toggle: () => {},
 });
 
 export function SoundProvider({ children }: { children: React.ReactNode }) {
-  const [enabled, setEnabled] = React.useState(true);
+  const [enabled, setEnabled] = React.useState(false);
   const enabledRef = React.useRef(enabled);
   const musicRef = React.useRef<HTMLAudioElement | null>(null);
   const startedRef = React.useRef(false);
 
   React.useEffect(() => {
-    setEnabled(localStorage.getItem(STORAGE_KEY) !== "off");
+    setEnabled(localStorage.getItem(STORAGE_KEY) === "on");
   }, []);
 
   React.useEffect(() => {
