@@ -53,7 +53,7 @@ export default function Skills() {
         </p>
       </FadeUp>
 
-      <div className="mt-16 grid gap-12 md:mt-24 md:grid-cols-3 md:gap-8">
+      <div className="mt-16 grid grid-cols-3 gap-6 md:mt-24 md:gap-8">
         {groups.map((group, gi) => (
           <FadeUp key={group.title} delay={gi * 0.1}>
             <h3 className="font-label text-xs uppercase text-smoke dark:text-ash">
