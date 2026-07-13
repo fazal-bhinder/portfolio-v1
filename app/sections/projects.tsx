@@ -71,7 +71,7 @@ export default function Projects() {
                 {/* live/github links, visible only on mobile */}
                 <div className="mt-1.5 flex items-center gap-4 md:hidden">
                   <span className="text-[13px] text-smoke dark:text-ash">
-                    live &#8599;
+                    live &#8599;&#xFE0E;
                   </span>
                   <span
                     role="link"
@@ -90,14 +90,14 @@ export default function Projects() {
                     }}
                     className="text-[13px] text-smoke dark:text-ash"
                   >
-                    github &#8599;
+                    github &#8599;&#xFE0E;
                   </span>
                 </div>
               </div>
 
               <div className="hidden items-center gap-6 md:flex">
                 <span className="text-[15px] text-smoke transition-all duration-300 group-hover:translate-x-1 group-hover:text-ink dark:text-ash dark:group-hover:text-bone">
-                  live &#8599;
+                  live &#8599;&#xFE0E;
                 </span>
                 <span
                   role="link"
@@ -116,7 +116,7 @@ export default function Projects() {
                   }}
                   className="text-[15px] text-smoke transition-colors duration-300 hover:text-ink dark:text-ash dark:hover:text-bone"
                 >
-                  github &#8599;
+                  github &#8599;&#xFE0E;
                 </span>
               </div>
             </a>

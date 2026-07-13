@@ -169,7 +169,7 @@ export default function Nav() {
               transition={{ delay: 0.3, duration: 0.3 }}
               className="mt-10 w-fit text-lg font-medium underline decoration-ink/40 underline-offset-4 dark:decoration-bone/40"
             >
-              resume &#8599;
+              resume &#8599;&#xFE0E;
             </motion.a>
           </motion.div>
         )}

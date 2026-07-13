@@ -61,7 +61,7 @@ export const Footer = () => {
             >
               Tell me your idea
               <span className="inline-block transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">
-                &#8599;
+                &#8599;&#xFE0E;
               </span>
             </motion.a>
           </FadeUp>
@@ -98,7 +98,7 @@ export const Footer = () => {
                 rel="noreferrer"
                 className="text-sm text-smoke transition-colors duration-200 hover:text-bone"
               >
-                {social.label} &#8599;
+                {social.label} &#8599;&#xFE0E;
               </a>
             ))}
           </div>
