@@ -70,10 +70,13 @@ export default function Projects() {
 
                 {/* live/github links, visible only on mobile */}
                 <div className="mt-1.5 flex items-center gap-4 md:hidden">
-                  <span className="text-[13px] text-smoke dark:text-ash">
+                  {project.liveUrl && (
+                    <span className="text-[13px] text-smoke dark:text-ash">
                     live &#8599;&#xFE0E;
                   </span>
-                  <span
+                  )}
+                  {project.githubUrl && (
+                    <span
                     role="link"
                     tabIndex={0}
                     onClick={(e) => {
@@ -92,14 +95,18 @@ export default function Projects() {
                   >
                     github &#8599;&#xFE0E;
                   </span>
+                  )}
                 </div>
               </div>
 
               <div className="hidden items-center gap-6 md:flex">
-                <span className="text-[15px] text-smoke transition-all duration-300 group-hover:translate-x-1 group-hover:text-ink dark:text-ash dark:group-hover:text-bone">
+                {project.liveUrl && (
+                  <span className="text-[15px] text-smoke transition-all duration-300 group-hover:translate-x-1 group-hover:text-ink dark:text-ash dark:group-hover:text-bone">
                   live &#8599;&#xFE0E;
                 </span>
-                <span
+                )}
+                {project.githubUrl && (
+                  <span
                   role="link"
                   tabIndex={0}
                   onClick={(e) => {
@@ -118,6 +125,7 @@ export default function Projects() {
                 >
                   github &#8599;&#xFE0E;
                 </span>
+                )}
               </div>
             </a>
           </FadeUp>

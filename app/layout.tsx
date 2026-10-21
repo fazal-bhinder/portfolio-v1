@@ -48,7 +48,8 @@ const spacemono = Space_Mono({
 
 export const metadata: Metadata = {
   title: "fazal singh",
-  description: "portfolio of Fazal Singh, a full stack engineer",
+  description:
+    "Fazal Singh, full stack engineer. Built Carpetstory's store, an AI marketing platform, and a CRM two companies run their sales on.",
 };
 
 export default function RootLayout({

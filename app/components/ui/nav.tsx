@@ -22,7 +22,7 @@ const links = [
 ];
 
 const RESUME_URL =
-  "https://drive.google.com/file/d/1MJR8sR_qA4PdD--87i3S1TgetXMgnkwn/view?usp=sharing";
+  "https://drive.google.com/file/d/1pu-8oQ9WYrOHKABGoX17PCGWrdb2Ecz5/view?usp=sharing";
 
 export default function Nav() {
   const reduce = useReducedMotion();

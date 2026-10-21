@@ -11,16 +11,16 @@ export default function AboutMe() {
       <div className="max-w-4xl">
         <RevealText
           as="p"
-          text="i'm a 23-year-old full stack engineer based in India. i graduated with a B.Tech in Computer Science in July 2025."
+          text="i'm a full stack engineer based in India. i like owning a product from the first commit to the day real people use it."
           className="text-2xl font-medium leading-[1.15] tracking-tight md:text-4xl"
         />
 
         <FadeUp delay={0.15}>
           <p className="mt-8 max-w-2xl text-base leading-relaxed text-ash dark:text-smoke md:text-lg">
-            from shipping full e-commerce platforms solo to scripting
-            automated data pipelines and building dev tooling, i&#39;m just as
-            comfortable in FastAPI, in Next.js, or in a three-line Bash script
-            running at 6am.
+            right now i build at House of Dotone: the Carpetstory store, the
+            backend of our AI marketing platform, and a CRM that two companies
+            run their sales on. before that i helped Psylief ship its first
+            product. i work mostly in Python, TypeScript and Postgres.
           </p>
         </FadeUp>
 
@@ -35,8 +35,8 @@ export default function AboutMe() {
             >
               muzic
             </a>
-            . you will often find me contributing to open-source or building
-            side projects.
+            . the rest of the time i&#39;m building side projects, like a
+            trading desk run by AI agents.
           </p>
         </FadeUp>
       </div>

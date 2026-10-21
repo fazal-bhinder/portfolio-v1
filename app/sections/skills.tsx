@@ -6,35 +6,26 @@ import { RevealText, FadeUp } from "../components/ui/reveal";
 const groups = [
   {
     title: "languages",
-    items: ["TypeScript", "JavaScript", "Python"],
+    items: ["Python", "TypeScript", "JavaScript", "SQL"],
   },
   {
     title: "frameworks",
-    items: [
-      "React",
-      "Next.js",
-      "Node.js",
-      "FastAPI",
-      "Hono.js",
-      "Prisma",
-      "Tailwind CSS",
-      "Framer Motion",
-    ],
+    items: ["FastAPI", "Node.js", "React", "Next.js", "Astro", "Playwright"],
   },
   {
-    title: "infra & tools",
+    title: "infra & ai",
     items: [
       "PostgreSQL",
-      "MongoDB",
       "Redis",
       "RabbitMQ",
       "Docker",
+      "GitHub Actions",
       "Cloudflare",
       "Vercel",
-      "GitHub Actions",
-      "Sanity",
-      "Git",
-      "Postman",
+      "Oracle Cloud",
+      "OpenAI & Anthropic",
+      "RAG & Embeddings",
+      "LLM Agents",
     ],
   },
 ];
