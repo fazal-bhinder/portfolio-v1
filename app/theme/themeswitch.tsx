@@ -1,56 +1,47 @@
 "use client";
+
 import * as React from "react";
-import { useTheme } from "next-themes";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { flushSync } from "react-dom";
+import { useTheme, ThemeProvider as NextThemesProvider } from "next-themes";
 import type { ThemeProviderProps } from "next-themes";
-import { Sun, Moon } from "lucide-react";
+import { IconMoon, IconSun } from "@tabler/icons-react";
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return (
-    <NextThemesProvider
-      attribute="class"
-      defaultTheme="light"
-      enableSystem={false}
-      storageKey="theme"
-      disableTransitionOnChange={false}
-      {...props}
-    >
+    <NextThemesProvider storageKey="theme" {...props}>
       {children}
     </NextThemesProvider>
   );
 }
 
-export const ThemeSwitch: React.FC<{ className?: string }> = ({ className }) => {
+export function ThemeSwitch({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
 
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const dark = mounted && resolvedTheme === "dark";
 
-  const toggleTheme = () => {
-    const next = (resolvedTheme === "dark" ? "light" : "dark") as "light" | "dark";
-    setTheme(next);
+  const toggle = () => {
+    const next = dark ? "light" : "dark";
+    // the browser cross-fades the whole page between the two themes
+    if (
+      document.startViewTransition &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      document.startViewTransition(() => flushSync(() => setTheme(next)));
+    } else {
+      setTheme(next);
+    }
   };
-
-  if (!mounted) {
-    return (
-      <div className="p-2 rounded-xl">
-        <div className="h-[18px] w-[18px] bg-zinc-300 animate-pulse rounded" />
-      </div>
-    );
-  }
 
   return (
     <button
       id="theme-toggle"
-      aria-label={`Switch to ${resolvedTheme === "light" ? "dark" : "light"} mode`}
-      onClick={toggleTheme}
-      className={`p-2 cursor-pointer hover:text-accent dark:hover:text-accent transition-colors duration-200 ${
-        className ?? "text-zinc-600 dark:text-zinc-400"
-      }`}
+      aria-label={`Switch to ${dark ? "light" : "dark"} mode`}
+      onClick={toggle}
+      className={className}
     >
-      {resolvedTheme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+      {dark ? <IconSun size={18} stroke={1.75} /> : <IconMoon size={18} stroke={1.75} />}
     </button>
   );
-};
+}

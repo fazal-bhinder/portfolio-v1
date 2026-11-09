@@ -1,55 +1,42 @@
-import type { Metadata } from "next";
-import { Space_Grotesk, Anton, Space_Mono, Unbounded, Saira_Extra_Condensed, Teko } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { IBM_Plex_Mono, Sora, Syncopate } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "./theme/themeswitch";
-import SmoothScroll from "./components/ui/smoothscroll";
+import { MotionRoot } from "./components/ui/motion";
 import { SoundProvider } from "./components/ui/sound";
 
-const grotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-grotesk",
-  display: "swap",
-});
-
-const anton = Anton({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-anton",
-  display: "swap",
-});
-
-const logoFont = Unbounded({
-  weight: "800",
-  subsets: ["latin"],
-  variable: "--font-unbounded",
-  display: "swap",
-});
-
-const saira = Saira_Extra_Condensed({
-  weight: ["800", "900"],
-  subsets: ["latin"],
-  variable: "--font-saira",
-  display: "swap",
-});
-
-const teko = Teko({
-  weight: ["700"],
-  subsets: ["latin"],
-  variable: "--font-teko",
-  display: "swap",
-});
-
-const spacemono = Space_Mono({
+// wide, tracked capitals: the film-title voice
+const title = Syncopate({
   weight: ["400", "700"],
   subsets: ["latin"],
-  variable: "--font-spacemono",
+  variable: "--font-syncopate",
+  display: "swap",
+});
+
+// narration and body
+const sans = Sora({
+  subsets: ["latin"],
+  variable: "--font-sora",
+  display: "swap",
+});
+
+// mission-log and instrument readouts
+const mono = IBM_Plex_Mono({
+  weight: ["400", "500"],
+  subsets: ["latin"],
+  variable: "--font-plex-mono",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "fazal singh",
+  title: "Fazal Singh",
   description:
-    "Fazal Singh, full stack engineer. Built Carpetstory's store, an AI marketing platform, and a CRM two companies run their sales on.",
+    "Fazal Singh, full stack engineer. Built Carpetstory’s store, an AI marketing platform, and a CRM two companies run their sales on.",
+};
+
+// browser chrome and scrollbars match the void
+export const viewport: Viewport = {
+  themeColor: "#03040a",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
@@ -58,21 +45,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
       <body
-        className={`${grotesk.variable} ${anton.variable} ${spacemono.variable} ${logoFont.variable} ${saira.variable} ${teko.variable} font-sans antialiased tracking-[-0.01em] bg-bone text-ink dark:bg-ink dark:text-bone`}
+        className={`${title.variable} ${sans.variable} ${mono.variable} font-sans text-star antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange={false}
-        >
-          <SoundProvider>
-            <SmoothScroll />
-            {children}
-          </SoundProvider>
-        </ThemeProvider>
+        <SoundProvider>
+          <MotionRoot>{children}</MotionRoot>
+        </SoundProvider>
       </body>
     </html>
   );

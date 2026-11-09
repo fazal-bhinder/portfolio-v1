@@ -1,179 +1,143 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import {
-  useScroll,
-  useMotionValueEvent,
-  useReducedMotion,
-  AnimatePresence,
-  motion,
-} from "framer-motion";
-import { Menu, X } from "lucide-react";
-import { ThemeSwitch } from "../../theme/themeswitch";
+import { useEffect, useRef, useState } from "react";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { IconArrowUpRight } from "@tabler/icons-react";
 import { SoundToggle } from "./sound";
-import { cn } from "../../lib/utils";
-import { FazalSinghWordmark } from "./wordmark";
+import { RESUME_URL } from "../../data/links";
 
-const links = [
-  { label: "about", href: "#about" },
-  { label: "experience", href: "#experience" },
-  { label: "work", href: "#work" },
-  { label: "contact", href: "#contact" },
+export const acts = [
+  { id: "origin", numeral: "I", name: "Origin" },
+  { id: "log", numeral: "II", name: "Flight log" },
+  { id: "worlds", numeral: "III", name: "Worlds" },
+  { id: "instruments", numeral: "IV", name: "Instruments" },
+  { id: "transmission", numeral: "V", name: "Transmission" },
 ];
 
-const RESUME_URL =
-  "https://drive.google.com/file/d/1pu-8oQ9WYrOHKABGoX17PCGWrdb2Ecz5/view?usp=sharing";
-
+/**
+ * The heads-up display: who made this, which act you are in, and how far
+ * through the voyage you are. It is also the navigation.
+ */
 export default function Nav() {
-  const reduce = useReducedMotion();
-  const { scrollY } = useScroll();
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<string | null>(null);
+  const percent = useRef<HTMLSpanElement>(null);
+  const { scrollYProgress } = useScroll();
 
-  useMotionValueEvent(scrollY, "change", (v) => {
-    // stay transparent over the dark hero and the dark footer
-    const footer = document.getElementById("contact");
-    const overFooter = footer ? v + 64 >= footer.offsetTop : false;
-    setScrolled(v > window.innerHeight * 0.7 && !overFooter);
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    if (percent.current)
+      percent.current.textContent = String(Math.round(v * 100)).padStart(3, "0");
   });
 
-  // lock page scroll while the mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
+    const visible = new Set<string>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visible.add(entry.target.id);
+          else visible.delete(entry.target.id);
+        }
+        // acts never overlap the middle line, so at most one is "visible"
+        const id = acts.find((act) => visible.has(act.id))?.id ?? null;
+        setActive(id);
+        // globals.css shifts the nebula colour per act
+        document.documentElement.dataset.act = id ?? "";
+      },
+      { rootMargin: "-50% 0px -50% 0px" }
+    );
+    for (const act of acts) {
+      const section = document.getElementById(act.id);
+      if (section) observer.observe(section);
+    }
+    return () => observer.disconnect();
+  }, []);
 
-  const solid = scrolled || open;
+  const current = acts.find((act) => act.id === active);
 
   return (
     <motion.header
-      initial={reduce ? { opacity: 0 } : { y: "-100%" }}
-      animate={reduce ? { opacity: 1 } : { y: 0 }}
-      transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
-        open
-          ? "bg-bone text-ink dark:bg-ink dark:text-bone"
-          : scrolled
-          ? "bg-bone/85 text-ink backdrop-blur-md dark:bg-ink/85 dark:text-bone"
-          : "bg-transparent text-bone"
-      )}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.6, delay: 2.2 }}
+      className="pointer-events-none fixed inset-0 z-50 font-mono text-[11px] uppercase tracking-[0.22em]"
     >
-      <nav className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 md:px-8">
+      {/* top: the letterbox edge */}
+      <div className="flex items-center justify-between bg-gradient-to-b from-void via-void/75 to-transparent px-5 pb-10 pt-5 md:px-10">
         <a
           href="#top"
-          onClick={() => setOpen(false)}
-          className="transition-opacity duration-200 hover:opacity-60 text-current flex items-center"
+          translate="no"
+          className="pointer-events-auto font-title text-[11px] font-bold tracking-[0.35em] transition-opacity duration-300 hover:opacity-60"
         >
-          <FazalSinghWordmark className="h-[11px] w-auto text-current" />
+          Fazal Singh
         </a>
-
-        <div className="flex items-center">
-          <div className="mr-7 hidden items-center gap-7 md:flex">
-            {links.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "text-[15px] font-medium transition-colors duration-200",
-                  solid
-                    ? "text-ash hover:text-ink dark:text-smoke dark:hover:text-bone"
-                    : "text-smoke hover:text-bone"
-                )}
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
+        <div className="pointer-events-auto flex items-center gap-6 text-dim">
+          <SoundToggle className="flex items-center gap-2 transition-colors duration-300 hover:text-star" />
           <a
             href={RESUME_URL}
             target="_blank"
             rel="noreferrer"
-            className={cn(
-              "hidden text-[15px] font-medium underline underline-offset-4 transition-colors duration-200 md:block",
-              solid
-                ? "decoration-ink/40 hover:decoration-ink dark:decoration-bone/40 dark:hover:decoration-bone"
-                : "decoration-bone/40 hover:decoration-bone"
-            )}
+            className="hidden items-center gap-1 transition-colors duration-300 hover:text-star sm:flex"
           >
-            resume
+            Resume
+            <IconArrowUpRight aria-hidden size={13} stroke={1.5} />
           </a>
-          {/* icon buttons carry p-2, so margins are tuned for equal visual gaps */}
-          <div className="-mr-2 flex items-center gap-3 md:ml-5">
-            <SoundToggle
-              className={cn(
-                solid
-                  ? "text-ash dark:text-smoke"
-                  : "text-smoke hover:text-bone"
-              )}
-            />
-            <ThemeSwitch
-              className={cn(
-                solid
-                  ? "text-ash dark:text-smoke"
-                  : "text-smoke hover:text-bone"
-              )}
-            />
-
-            {/* mobile menu toggle */}
-            <button
-              aria-label={open ? "Close menu" : "Open menu"}
-              aria-expanded={open}
-              onClick={() => setOpen((v) => !v)}
-              className={cn(
-                "p-2 md:hidden",
-                solid ? "text-ash dark:text-smoke" : "text-smoke"
-              )}
-            >
-              {open ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
         </div>
+      </div>
+
+      {/* right: one tick per act */}
+      <nav
+        aria-label="Acts"
+        className="pointer-events-auto absolute right-1 top-1/2 flex -translate-y-1/2 flex-col items-end md:right-2"
+      >
+        {acts.map((act) => {
+          const on = act.id === active;
+          return (
+            <a
+              key={act.id}
+              href={`#${act.id}`}
+              aria-current={on ? "true" : undefined}
+              aria-label={`Act ${act.numeral}: ${act.name}`}
+              className="group flex items-center gap-3 py-3.5 pl-9 md:py-2.5 md:pl-0"
+            >
+              <span
+                className="hidden translate-x-2 bg-void/80 px-2 py-1 text-star opacity-0 transition-[opacity,transform] duration-500 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 md:block"
+              >
+                {act.name}
+              </span>
+              <span
+                className={`h-px transition-[width,background-color] duration-500 ease-out-quint ${
+                  on ? "w-3.5 bg-ion md:w-6" : "w-2 bg-star/40 group-hover:bg-star md:w-3 md:group-hover:w-5"
+                }`}
+              />
+            </a>
+          );
+        })}
       </nav>
 
-      {/* mobile menu panel */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 bottom-0 top-16 z-40 flex flex-col justify-between overflow-y-auto bg-bone px-4 pb-10 pt-6 text-ink dark:bg-ink dark:text-bone md:hidden"
-          >
-            <div className="flex flex-col">
-              {links.map((link, i) => (
-                <motion.a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 + i * 0.05, duration: 0.3 }}
-                  className="border-b border-ink/10 py-5 font-display text-4xl uppercase tracking-tight dark:border-bone/10"
-                >
-                  {link.label}
-                </motion.a>
-              ))}
-            </div>
-
-            <motion.a
-              href={RESUME_URL}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => setOpen(false)}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.3 }}
-              className="mt-10 w-fit text-lg font-medium underline decoration-ink/40 underline-offset-4 dark:decoration-bone/40"
-            >
-              resume &#8599;&#xFE0E;
-            </motion.a>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* bottom: where you are */}
+      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-void via-void/75 to-transparent px-5 pb-5 pt-12 text-dim md:px-10">
+        <p>
+          {current ? (
+            <>
+              <span className="text-ion">Act {current.numeral}</span>
+              <span className="mx-3 text-star/30">/</span>
+              {current.name}
+            </>
+          ) : (
+            "Prologue"
+          )}
+        </p>
+        <p>
+          <span className="hidden sm:inline">Voyage </span>
+          <span ref={percent} className="text-star">
+            000
+          </span>
+          %
+        </p>
+      </div>
+      <motion.div
+        style={{ scaleX: scrollYProgress }}
+        className="absolute inset-x-0 bottom-0 h-px origin-left bg-ion"
+      />
     </motion.header>
   );
 }

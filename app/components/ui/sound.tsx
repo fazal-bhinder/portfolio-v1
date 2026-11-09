@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Volume2, VolumeX } from "lucide-react";
+import { IconVolume, IconVolumeOff } from "@tabler/icons-react";
 
 const STORAGE_KEY = "sound-enabled";
 const MUSIC_SRC = "/sounds/heartleaf.mp3";
@@ -139,33 +139,22 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const SoundToggle: React.FC<{ className?: string }> = ({
-  className,
-}) => {
+export function SoundToggle({ className }: { className?: string }) {
   const { enabled, toggle } = React.useContext(SoundContext);
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <div className="p-2">
-        <div className="h-[18px] w-[18px]" />
-      </div>
-    );
-  }
 
   return (
     <button
-      aria-label={enabled ? "Mute sounds" : "Unmute sounds"}
+      aria-label={enabled ? "Mute sound" : "Turn sound on"}
+      aria-pressed={enabled}
       onClick={toggle}
-      className={`p-2 cursor-pointer hover:text-accent dark:hover:text-accent transition-colors duration-200 ${
-        className ?? "text-zinc-600 dark:text-zinc-400"
-      }`}
+      className={className}
     >
-      {enabled ? <Volume2 size={18} /> : <VolumeX size={18} />}
+      {enabled ? (
+        <IconVolume aria-hidden size={15} stroke={1.5} />
+      ) : (
+        <IconVolumeOff aria-hidden size={15} stroke={1.5} />
+      )}
+      <span className="uppercase">Sound {enabled ? "on" : "off"}</span>
     </button>
   );
-};
+}

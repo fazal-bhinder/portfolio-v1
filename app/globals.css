@@ -1,40 +1,189 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/*
+ * A space film. One theme: the void, starlight, and a single cold accent.
+ * Planets bring their own colour; the interface never does.
+ * Shape rule: everything is sharp, with hairline borders.
+ */
+:root {
+  color-scheme: dark;
+  --void: #03040a;
+  --star: #f3efe6;
+  --dim: #8b91a5;
+  --line: rgb(243 239 230 / 0.16);
+  --ion: #9fd3ff;
+}
 
 @theme inline {
-  --font-sans: var(--font-grotesk);
-  --font-display: var(--font-anton);
-  --font-logo: var(--font-teko);
-  --font-label: var(--font-spacemono);
+  --color-void: var(--void);
+  --color-star: var(--star);
+  --color-dim: var(--dim);
+  --color-line: var(--line);
+  --color-ion: var(--ion);
+  --font-sans: var(--font-sora);
+  --font-title: var(--font-syncopate);
+  --font-mono: var(--font-plex-mono);
 }
 
-/* monolog-derived palette: warm near-black, warm bone, warm grays */
 @theme {
-  --color-accent: #ff4a1c;
-  --color-ink: #0a0a09;
-  --color-bone: #e8e8e3;
-  --color-smoke: #938f8a;
-  --color-ash: #6b645c;
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Screen-shape variants.
+   pin:   wide AND tall enough to hold a pinned full-screen scene. A phone on
+          its side is wide but only ~390px tall, so width alone is not enough.
+   short: too little height for a full-screen title card (landscape phones). */
+@custom-variant pin {
+  @media (min-width: 768px) and (min-height: 680px) {
+    @slot;
+  }
+}
+@custom-variant short {
+  @media (max-height: 560px) {
+    @slot;
+  }
+}
+
+/* Motion measures scroll offsets against the root; it wants it positioned */
 html {
-  scroll-behavior: smooth;
+  position: relative;
+  background: var(--void);
+  /* anchors and focused elements land clear of the fixed HUD bars */
+  scroll-padding-block: 4.5rem 4rem;
+  -webkit-tap-highlight-color: rgb(159 211 255 / 0.18);
+}
+
+/* no double-tap-zoom delay on anything tappable */
+a,
+button {
+  touch-action: manipulation;
+}
+
+/* on mouse-driven screens the page should not rubber-band past its ends;
+   touch screens keep the default so pull-to-refresh still works */
+@media (pointer: fine) {
+  html {
+    overscroll-behavior: none;
+  }
 }
 
 ::selection {
-  background: #ff4a1c;
-  color: #e8e8e3;
+  background: var(--ion);
+  color: var(--void);
 }
 
-/* halftone dot texture over videos */
-.halftone {
-  background-image: radial-gradient(rgba(232, 232, 227, 0.07) 1px, transparent 1.2px);
-  background-size: 4px 4px;
+:focus-visible {
+  outline: 1px solid var(--ion);
+  outline-offset: 4px;
+}
+
+/* ---------- nebula: the colour of space drifts from act to act ----------
+   hud.tsx writes data-act on <html>; registered properties let the two
+   colours cross-fade instead of snapping. */
+@property --neb-a {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #0b1c4d;
+}
+@property --neb-b {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1c0f3d;
+}
+
+html {
+  transition: --neb-a 2.4s ease, --neb-b 2.4s ease;
+}
+html[data-act="origin"] {
+  --neb-a: #08304a;
+  --neb-b: #0f1a4a;
+}
+html[data-act="log"] {
+  --neb-a: #24124f;
+  --neb-b: #0a2247;
+}
+html[data-act="worlds"] {
+  --neb-a: #0a2f3a;
+  --neb-b: #2a1238;
+}
+html[data-act="instruments"] {
+  --neb-a: #0c1f52;
+  --neb-b: #062c3a;
+}
+html[data-act="transmission"] {
+  --neb-a: #3a1d06;
+  --neb-b: #1a0a14;
+}
+
+.nebula {
+  background:
+    radial-gradient(60vmax 45vmax at 18% 22%, var(--neb-a), transparent 70%),
+    radial-gradient(55vmax 50vmax at 86% 78%, var(--neb-b), transparent 70%);
+  opacity: 0.55;
+}
+
+/* ---------- film titles ----------
+   Each letter is its own span (ui/motion.tsx <Title>). Letters resolve out of
+   a blur one after another, the way a title card fades up. */
+.title {
+  text-wrap: balance;
+}
+
+.title [data-l] {
+  display: inline-block;
+}
+
+.title[data-anim="view"]:not([data-in]) [data-l] {
+  opacity: 0;
+}
+
+.title[data-anim="load"] [data-l],
+.title[data-in] [data-l] {
+  animation: title-in 1.5s var(--ease-out-quint) backwards;
+  animation-delay: calc(var(--i) * 70ms + var(--delay, 0ms));
+}
+
+@keyframes title-in {
+  from {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translate3d(0.45em, 0, 0) scale(1.12);
+  }
+}
+
+/* ---------- the toolkit's orbits (sections/skills.tsx) ---------- */
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- prologue sunrise ---------- */
+@keyframes sunrise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.25);
+  }
+}
+
+@keyframes flare {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scaleX(0);
+  }
+}
+
+@keyframes limb-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6vh);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  .title [data-l],
+  .anim {
+    animation: none !important;
+    opacity: 1 !important;
   }
 }

@@ -1,119 +1,135 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { RevealText, FadeUp } from "../components/ui/reveal";
+import { useRef, useState } from "react";
+import { useScroll } from "framer-motion";
+import { IconArrowUp, IconArrowUpRight, IconCheck, IconCopy } from "@tabler/icons-react";
+import { ActCard, Rise, Title, Words } from "../components/ui/motion";
+import { BlackHole } from "../components/ui/blackhole";
+import { EMAIL, RESUME_URL, socials } from "../data/links";
 
-const socials = [
-  { label: "GitHub", href: "https://github.com/fazal-bhinder" },
-  { label: "LinkedIn", href: "https://linkedin.com/in/fazal-bhinder" },
-  { label: "X", href: "https://x.com/damnfazal" },
-];
-
+/**
+ * Act V. The final shot: the camera falls toward a black hole while the
+ * contact details and the credits come up over it.
+ */
 export const Footer = () => {
-  const reduce = useReducedMotion();
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoReady, setVideoReady] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+  const [copied, setCopied] = useState(false);
 
-  // a fast (local) video can fire canplay before hydration attaches
-  // the listener, so also check readiness on mount
-  useEffect(() => {
-    if (videoRef.current && videoRef.current.readyState >= 3) {
-      setVideoReady(true);
+  // 0 as the scene enters, 1 at the very end of the page
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end end"],
+  });
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      // clipboard blocked (permissions, insecure origin): the mailto link still works
     }
-  }, []);
+  };
 
   return (
-    <footer id="contact" className="bg-ink text-bone">
-      {/* full-viewport video CTA: same storm clouds as the hero */}
-      <section className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden px-6 pb-40 md:pb-0">
-        {!reduce && (
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            onCanPlay={() => setVideoReady(true)}
-            className={`absolute inset-0 h-full w-full scale-110 object-cover blur-md transition-opacity duration-1000 ${
-              videoReady ? "opacity-50" : "opacity-0"
-            }`}
-            src="/clouds.mp4"
+    <footer ref={ref} id="transmission" className="relative">
+      {/* the black hole holds the frame while everything else scrolls over it */}
+      <div className="sticky top-0 h-[100svh]">
+        <BlackHole approach={scrollYProgress} className="absolute inset-0" />
+      </div>
+
+      <div className="relative -mt-[100svh]">
+        <div className="mx-auto flex min-h-[110svh] max-w-[1400px] flex-col px-5 pt-28 [text-shadow:0_1px_28px_rgb(3_4_10/0.95),0_0_8px_rgb(3_4_10/0.7)] md:px-10 md:pt-36 short:pt-20">
+          <ActCard act="Act V" title="Transmission" />
+          <Words
+            text="Every voyage ends with a signal home. This is where you send yours."
+            className="mt-10 max-w-md text-lg font-light leading-relaxed text-star/70 md:text-2xl md:leading-relaxed"
           />
-        )}
-        <div className="halftone pointer-events-none absolute inset-0" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/80 via-transparent to-ink/80" />
-
-        <div className="relative z-10 flex flex-col items-center text-center">
-          <RevealText
-            as="p"
-            text="got something cool, or not so cool, to build?"
-            className="max-w-sm text-[17px] font-medium leading-snug text-smoke md:text-lg"
-          />
-
-          <FadeUp delay={0.25}>
-            <motion.a
-              href="mailto:bhinderfazal@gmail.com"
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="group mt-10 flex items-center gap-4 bg-bone px-8 py-5 text-2xl font-medium tracking-tight text-ink md:px-10 md:py-6 md:text-3xl"
-            >
-              Tell me your idea
-              <span className="inline-block transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1">
-                &#8599;&#xFE0E;
-              </span>
-            </motion.a>
-          </FadeUp>
-
-          <FadeUp delay={0.4}>
-            <p className="mt-10 max-w-xs text-sm leading-relaxed text-smoke md:max-w-sm">
-              i&#39;ll get back to you in 0.1 working days hihi. always open to
-              new ideas and conversations.
-            </p>
-          </FadeUp>
         </div>
 
-        {/* bottom bar, overlaid on the video */}
-        <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center gap-4 border-t border-bone/15 bg-ink/30 px-4 py-5 backdrop-blur-sm md:flex-row md:justify-between md:px-8">
-          <p className="text-sm text-ash">
-            &copy; 2026 fazal. built and maintained by{" "}
-            <a
-              href="https://x.com/damnfazal"
-              target="_blank"
-              rel="noreferrer"
-              className="text-smoke underline underline-offset-4 transition-colors duration-200 hover:text-bone"
-            >
-              fazal
-            </a>
-            .
-          </p>
+        <div className="bg-gradient-to-t from-void via-void/85 to-transparent pb-24 pt-[45svh]">
+          <div className="mx-auto max-w-[1400px] px-5 md:px-10">
+            <Title
+              text="Got something to build?"
+              className="max-w-[12em] text-[8.4vw] font-bold leading-[1.1] tracking-[0.03em] md:text-[4.6vw] min-[1400px]:text-[66px]"
+            />
 
-          <div className="flex items-center gap-5">
-            {socials.map((social) => (
+            <Rise className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
               <a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noreferrer"
-                className="text-sm text-smoke transition-colors duration-200 hover:text-bone"
+                href={`mailto:${EMAIL}`}
+                translate="no"
+                className="font-mono text-[5.4vw] tracking-[-0.02em] underline decoration-ion decoration-1 underline-offset-[0.3em] transition-colors duration-300 hover:text-ion md:text-[2.4vw] min-[1400px]:text-[34px]"
               >
-                {social.label} &#8599;&#xFE0E;
+                {EMAIL}
               </a>
-            ))}
-          </div>
+              <button
+                onClick={copy}
+                aria-label="Copy email address"
+                className="flex items-center gap-2 border border-star/70 px-5 py-3 font-mono text-[11px] uppercase tracking-[0.25em] transition-colors duration-500 hover:bg-star hover:text-void"
+              >
+                {copied ? <IconCheck aria-hidden size={14} stroke={1.75} /> : <IconCopy aria-hidden size={14} stroke={1.5} />}
+                <span aria-live="polite">{copied ? "Copied" : "Copy email"}</span>
+              </button>
+            </Rise>
 
-          <a
-            href="#top"
-            className="group flex items-center gap-2 text-sm text-smoke transition-colors duration-200 hover:text-bone"
-          >
-            Back to top
-            <span className="inline-block transition-transform duration-300 group-hover:-translate-y-1">
-              &#8593;
-            </span>
-          </a>
+            <Rise delay={0.1}>
+              <p className="mt-6 max-w-sm font-light leading-relaxed text-star/65">
+                I reply in about 0.1&nbsp;working days. Always open to new ideas
+                and conversations.
+              </p>
+            </Rise>
+
+            {/* end credits */}
+            <div className="mt-28 text-center md:mt-40">
+              <Rise>
+                <p className="font-mono text-[11px] uppercase tracking-[0.4em] text-dim">
+                  Written, built and deployed by
+                </p>
+                <p className="mt-4 font-title text-xl font-bold uppercase tracking-[0.3em] md:text-2xl">
+                  Fazal Singh
+                </p>
+              </Rise>
+
+              <Rise delay={0.1}>
+                <ul className="mt-12 flex flex-wrap justify-center gap-x-9 gap-y-4 font-mono text-[11px] uppercase tracking-[0.25em]">
+                  {[...socials, { label: "Resume", href: RESUME_URL }].map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group flex items-center gap-1 text-star/75 transition-colors duration-300 hover:text-ion"
+                      >
+                        {link.label}
+                        <IconArrowUpRight aria-hidden
+                          size={13}
+                          stroke={1.5}
+                          className="transition-transform duration-300 ease-out-quint group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                        />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </Rise>
+
+              <div className="mt-14 flex flex-col items-center gap-5 font-mono text-[11px] uppercase tracking-[0.25em] text-dim">
+                <a
+                  href="#top"
+                  className="group flex items-center gap-2 transition-colors duration-300 hover:text-star"
+                >
+                  Watch it again
+                  <IconArrowUp aria-hidden
+                    size={13}
+                    stroke={1.5}
+                    className="transition-transform duration-300 ease-out-quint group-hover:-translate-y-1"
+                  />
+                </a>
+                <p>&copy; 2026 Fazal Singh</p>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
     </footer>
   );
 };
