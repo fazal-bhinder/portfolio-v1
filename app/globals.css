@@ -82,40 +82,41 @@ button {
    colours cross-fade instead of snapping. */
 @property --neb-a {
   syntax: "<color>";
-  inherits: true;
+  inherits: false;
   initial-value: #0b1c4d;
 }
 @property --neb-b {
   syntax: "<color>";
-  inherits: true;
+  inherits: false;
   initial-value: #1c0f3d;
 }
 
-html {
-  transition: --neb-a 2.4s ease, --neb-b 2.4s ease;
-}
-html[data-act="origin"] {
+/* The colours live on .nebula itself and do not inherit: animating an
+   inherited property on <html> restyles every element on the page, every
+   frame, for the whole 2.4s. */
+html[data-act="origin"] .nebula {
   --neb-a: #08304a;
   --neb-b: #0f1a4a;
 }
-html[data-act="log"] {
+html[data-act="log"] .nebula {
   --neb-a: #24124f;
   --neb-b: #0a2247;
 }
-html[data-act="worlds"] {
+html[data-act="worlds"] .nebula {
   --neb-a: #0a2f3a;
   --neb-b: #2a1238;
 }
-html[data-act="instruments"] {
+html[data-act="instruments"] .nebula {
   --neb-a: #0c1f52;
   --neb-b: #062c3a;
 }
-html[data-act="transmission"] {
+html[data-act="transmission"] .nebula {
   --neb-a: #3a1d06;
   --neb-b: #1a0a14;
 }
 
 .nebula {
+  transition: --neb-a 2.4s ease, --neb-b 2.4s ease;
   background:
     radial-gradient(60vmax 45vmax at 18% 22%, var(--neb-a), transparent 70%),
     radial-gradient(55vmax 50vmax at 86% 78%, var(--neb-b), transparent 70%);
@@ -151,6 +152,27 @@ html[data-act="transmission"] {
   }
 }
 
+/* Touch screens: letters fade and slide in without the blur (one filter per
+   letter is heavy on a phone GPU), and anchors glide natively since the
+   smooth-scroll library is not loaded there. */
+@keyframes title-in-lite {
+  from {
+    opacity: 0;
+    transform: translate3d(0.45em, 0, 0) scale(1.12);
+  }
+}
+@media (pointer: coarse) {
+  .title[data-anim="load"] [data-l],
+  .title[data-in] [data-l] {
+    animation-name: title-in-lite;
+  }
+}
+@media (pointer: coarse) and (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* ---------- the toolkit's orbits (sections/skills.tsx) ---------- */
 @keyframes orbit {
   to {
@@ -163,13 +185,6 @@ html[data-act="transmission"] {
   from {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.25);
-  }
-}
-
-@keyframes flare {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scaleX(0);
   }
 }
 

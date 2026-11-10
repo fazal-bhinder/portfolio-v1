@@ -125,14 +125,14 @@ export default function ProfessionalExperience() {
                   />
                 </span>
                 <span
-                  className={`mt-3 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors duration-500 ${
+                  className={`mt-3 bg-void/85 px-1.5 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors duration-500 ${
                     on ? "text-ion" : "text-dim group-hover:text-star"
                   }`}
                 >
                   Waypoint {String(i + 1).padStart(2, "0")}
                 </span>
                 <span
-                  className={`mt-1.5 text-sm leading-snug transition-colors duration-500 sm:text-base ${
+                  className={`mt-1 bg-void/85 px-1.5 py-0.5 text-sm leading-snug transition-colors duration-500 sm:text-base ${
                     on ? "text-star" : "text-star/55 group-hover:text-star"
                   }`}
                 >

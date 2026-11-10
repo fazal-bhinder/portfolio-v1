@@ -61,7 +61,7 @@ export default function Nav() {
       className="pointer-events-none fixed inset-0 z-50 font-mono text-[11px] uppercase tracking-[0.22em]"
     >
       {/* top: the letterbox edge */}
-      <div className="flex items-center justify-between bg-gradient-to-b from-void via-void/75 to-transparent px-5 pb-10 pt-5 md:px-10">
+      <div className="flex items-center justify-between bg-gradient-to-b from-void from-45% to-transparent px-5 pb-10 pt-5 md:px-10">
         <a
           href="#top"
           translate="no"
@@ -83,10 +83,11 @@ export default function Nav() {
         </div>
       </div>
 
-      {/* right: one tick per act */}
+      {/* right: one tick per act. Not on phones: there it sat on top of the
+          text's right edge, and the ticks were too small to tap anyway */}
       <nav
         aria-label="Acts"
-        className="pointer-events-auto absolute right-1 top-1/2 flex -translate-y-1/2 flex-col items-end md:right-2"
+        className="pointer-events-auto absolute right-2 top-1/2 hidden -translate-y-1/2 flex-col items-end md:flex"
       >
         {acts.map((act) => {
           const on = act.id === active;
@@ -114,7 +115,7 @@ export default function Nav() {
       </nav>
 
       {/* bottom: where you are */}
-      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-void via-void/75 to-transparent px-5 pb-5 pt-12 text-dim md:px-10">
+      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-void from-45% to-transparent px-5 pb-5 pt-12 text-dim md:px-10">
         <p>
           {current ? (
             <>

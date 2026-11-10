@@ -188,8 +188,8 @@ export function BlackHole({
     // tune() grow it toward the screen's real resolution while frames stay
     // smooth, and shrink it when they do not.
     const phone = window.innerWidth < 768;
-    let budget = phone ? 220_000 : 700_000;
-    let ceiling = phone ? 600_000 : 2_400_000;
+    let budget = phone ? 130_000 : 700_000;
+    let ceiling = phone ? 300_000 : 2_400_000;
 
     const resize = () => {
       const { clientWidth: cw, clientHeight: ch } = canvas;
@@ -227,19 +227,20 @@ export function BlackHole({
     let slow = 0;
     const tune = (gap: number) => {
       span += gap;
-      if (++ticks < 40) return;
+      if (++ticks < 24) return;
       const average = span / ticks;
       ticks = span = 0;
       const full =
         canvas.clientWidth * canvas.clientHeight * Math.min(window.devicePixelRatio, 2) ** 2;
-      if (average > 24) {
-        // two slow windows in a row: back off, and remember not to climb back
-        if (++slow < 2) return;
+      if (average > 22) {
+        // clearly struggling, or slow twice running: back off, and remember
+        // not to climb back
+        if (average < 32 && ++slow < 2) return;
         ceiling = budget * 0.9;
         budget = Math.max(budget * 0.7, 120_000);
       } else {
         slow = 0;
-        if (average > 19 || budget >= Math.min(ceiling, full)) return;
+        if (average > 17.6 || budget >= Math.min(ceiling, full)) return;
         budget = Math.min(budget * 1.3, ceiling, full);
       }
       resize();

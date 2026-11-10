@@ -16,8 +16,10 @@ import {
   LEDE,
   Rise,
   SHELL,
+  TOUCH,
   Title,
   Words,
+  useMedia,
   useReduce,
 } from "../components/ui/motion";
 import { Planet, type PlanetLook } from "../components/ui/planet";
@@ -73,7 +75,7 @@ function Jump() {
   useEffect(() => () => void (warp.value = 0), []);
 
   return (
-    <div ref={ref} className="relative h-[150svh] short:h-auto">
+    <div ref={ref} className="relative h-[120svh] md:h-[150svh] short:h-auto">
       <div className="sticky top-0 flex h-[100svh] flex-col justify-center overflow-hidden short:relative short:h-auto short:py-24">
         <motion.div
           aria-hidden
@@ -98,6 +100,9 @@ function Jump() {
  */
 function World({ project, index }: { project: Project; index: number }) {
   const reduce = useReduce();
+  // script-driven movement lags a finger's scroll by a frame and reads as
+  // judder, so on touch the globe simply rides the page
+  const fixed = useMedia(TOUCH) || reduce;
   const look = LOOKS[project.title] ?? FALLBACK;
   const flip = index % 2 === 1;
 
@@ -119,7 +124,7 @@ function World({ project, index }: { project: Project; index: number }) {
           hard cap) so it can never outgrow its half of the screen. It may
           spill outward past the page gutter, never inward toward the text. */}
       <motion.div
-        style={reduce ? undefined : { y: drift, scale }}
+        style={fixed ? undefined : { y: drift, scale }}
         className={`w-[min(84vw,23rem)] justify-self-center md:w-[min(48vw,80svh,50rem)] ${
           flip ? "md:order-2 md:justify-self-start" : "md:justify-self-end"
         }`}
@@ -209,13 +214,15 @@ function Moons({ items }: { items: Project[] }) {
       </Rise>
       <Words text="Smaller side projects, in orbit around the main 5." className={LEDE} />
 
-      <ul className="mt-12 grid gap-x-10 gap-y-12 sm:grid-cols-2 md:mt-16 lg:grid-cols-3 xl:grid-cols-5 xl:gap-x-8">
+      <ul className="mt-10 grid gap-x-10 gap-y-9 sm:grid-cols-2 sm:gap-y-12 md:mt-16 lg:grid-cols-3 xl:grid-cols-5 xl:gap-x-8">
         {items.map((project, i) => (
           <li key={project.title}>
-            <Rise delay={(i % 5) * 0.07} className="flex h-full flex-col">
+            {/* phones: moon beside the text, as one compact row. Wider: stacked. */}
+            <Rise delay={(i % 5) * 0.07} className="grid h-full grid-cols-[4.5rem_1fr] gap-x-4 sm:flex sm:flex-col">
               {/* the globe is inset in its box; pull it back to the text edge */}
-              <Planet look={LOOKS[project.title] ?? FALLBACK} className="-ml-3 w-28" />
-              <h3 className="mt-4 font-title text-sm font-bold uppercase leading-snug tracking-[0.12em]">
+              <Planet look={LOOKS[project.title] ?? FALLBACK} className="-ml-2 -mt-2 w-20 sm:-ml-3 sm:mt-0 sm:w-28" />
+              <div className="flex min-w-0 flex-col sm:contents">
+              <h3 className="font-title text-sm font-bold uppercase leading-snug tracking-[0.12em] sm:mt-4">
                 {project.title}
               </h3>
               <p className="mt-3 flex-1 text-sm font-light leading-relaxed text-star/65">
@@ -246,6 +253,7 @@ function Moons({ items }: { items: Project[] }) {
                     <span className="sr-only"> for {project.title}</span>
                   </a>
                 )}
+              </div>
               </div>
             </Rise>
           </li>

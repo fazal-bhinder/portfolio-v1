@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { Fragment, useEffect, useRef, useSyncExternalStore } from "react";
 import Lenis from "lenis";
 import { MotionConfig, cancelFrame, frame, motion, useInView } from "framer-motion";
 import { cn } from "../../lib/utils";
@@ -21,6 +21,9 @@ export const LEDE =
 export const GAP = "mt-14 md:mt-24";
 
 const REDUCE = "(prefers-reduced-motion: reduce)";
+/** phones and tablets: a finger, not a mouse. GPUs here are small, so the
+    heaviest effects (blur reveals, scroll-linked parallax) are dropped. */
+export const TOUCH = "(pointer: coarse)";
 
 /**
  * Reduced-motion preference that is safe to branch markup on: false on the
@@ -58,6 +61,8 @@ export function useMedia(query: string): boolean {
 export function MotionRoot({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (window.matchMedia(REDUCE).matches) return;
+    // touch screens already scroll smoothly, off the main thread; leave them to it
+    if (window.matchMedia(TOUCH).matches) return;
 
     const lenis = new Lenis({ lerp: 0.1, anchors: true });
 
@@ -108,17 +113,22 @@ export function Title({
       className={cn("title font-title uppercase", className)}
     >
       {words.map((word, w) => (
-        <span key={w} aria-hidden className="inline-block whitespace-nowrap">
-          {Array.from(word).map((char) => {
-            const i = index++;
-            return (
-              <span key={i} data-l style={{ "--i": i } as React.CSSProperties}>
-                {char}
-              </span>
-            );
-          })}
-          {w < words.length - 1 && <span>&nbsp;</span>}
-        </span>
+        <Fragment key={w}>
+          <span aria-hidden className="inline-block whitespace-nowrap">
+            {Array.from(word).map((char) => {
+              const i = index++;
+              return (
+                <span key={i} data-l style={{ "--i": i } as React.CSSProperties}>
+                  {char}
+                </span>
+              );
+            })}
+          </span>
+          {/* a plain space between words, not inside them: when the title
+              wraps, a word must not carry a space on its end or the lines
+              of a centred title stop lining up */}
+          {w < words.length - 1 && " "}
+        </Fragment>
       ))}
     </Tag>
   );
@@ -137,6 +147,9 @@ export function Words({
   /** drive manually; omit to play when scrolled into view */
   play?: boolean;
 }) {
+  const touch = useMedia(TOUCH);
+  // a blur filter per word is the single costliest reveal on a phone GPU
+  const blur = (px: number) => (touch ? "none" : `blur(${px}px)`);
   const trigger =
     play === undefined
       ? { whileInView: "show", viewport: { once: true, amount: 0.4 } }
@@ -154,10 +167,10 @@ export function Words({
           key={i}
           className="inline-block"
           variants={{
-            hidden: { opacity: 0, filter: "blur(10px)", y: 10 },
+            hidden: { opacity: 0, filter: blur(10), y: 10 },
             show: {
               opacity: 1,
-              filter: "blur(0px)",
+              filter: blur(0),
               y: 0,
               transition: { duration: 0.9, ease: EASE },
             },

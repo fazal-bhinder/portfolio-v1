@@ -9,7 +9,9 @@ import {
   Readout,
   Rise,
   SHELL,
+  TOUCH,
   Words,
+  useMedia,
   useReduce,
 } from "../components/ui/motion";
 import { Planet, type PlanetLook } from "../components/ui/planet";
@@ -48,6 +50,8 @@ const telemetry = [
 /** Act I. Where the voyage starts: the home world, and who is leaving it. */
 export default function AboutMe() {
   const reduce = useReduce();
+  // on touch the globe rides the page: script-driven drift lags a finger's scroll
+  const fixed = useMedia(TOUCH) || reduce;
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -89,7 +93,7 @@ export default function AboutMe() {
 
         {/* home, seen from orbit */}
         <motion.div
-          style={reduce ? undefined : { y: drift }}
+          style={fixed ? undefined : { y: drift }}
           className="order-first mx-auto w-[min(80vw,23rem)] md:order-none md:col-span-5 md:w-full md:max-w-[540px]"
         >
           <Planet look={HOME} />

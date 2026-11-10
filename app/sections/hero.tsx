@@ -14,8 +14,12 @@ export default function Hero() {
 
   // 0 at rest, 1 once the pinned shot has played out (one viewport of scroll)
   const { scrollY } = useScroll();
+  // on phones the shot plays out over 0.42 of a screen, so a swipe never
+  // lands on an empty sky (the section is shorter there to match)
   const lift = useTransform(scrollY, (v) =>
-    typeof window === "undefined" ? 0 : Math.min(v / window.innerHeight, 1)
+    typeof window === "undefined"
+      ? 0
+      : Math.min(v / (window.innerHeight * (window.innerWidth < 768 ? 0.42 : 1)), 1)
   );
   const horizonY = useTransform(lift, [0, 1], ["0vh", "46vh"]);
   const sunScale = useTransform(lift, [0, 1], [1, 2.4]);
@@ -28,7 +32,7 @@ export default function Hero() {
   const moving = <T,>(style: T) => (reduce ? undefined : style);
 
   return (
-    <section id="top" className="relative h-[200svh] short:h-auto">
+    <section id="top" className="relative h-[142svh] md:h-[200svh] short:h-auto">
       <div className="sticky top-0 h-[100svh] overflow-hidden short:relative short:h-auto short:min-h-[640px]">
         {/* the sun, half hidden behind the planet's edge */}
         <motion.div
@@ -36,7 +40,7 @@ export default function Hero() {
           className="absolute inset-0"
         >
           <div
-            className="anim absolute left-[64%] top-[calc(74%+1vw)] aspect-square w-[70vmin] mix-blend-screen"
+            className="anim absolute left-[64%] top-[calc(74%+1vw)] aspect-square w-[70vmin]"
             style={{
               transform: "translate(-50%, -50%)",
               background:
@@ -57,17 +61,6 @@ export default function Hero() {
               boxShadow:
                 "0 0 0 1px rgb(200 228 255 / 0.5), 0 -6px 28px 2px rgb(120 180 255 / 0.5), 0 -40px 160px 10px rgb(60 110 255 / 0.28), inset 0 26px 70px -18px rgb(110 170 255 / 0.5)",
               animation: "limb-in 2.6s var(--ease-out-quint) backwards",
-            }}
-          />
-          {/* lens flare: the long horizontal streak a film lens throws */}
-          <div
-            className="anim absolute left-[64%] top-[calc(74%+1vw)] h-px w-[120vw] mix-blend-screen"
-            style={{
-              transform: "translate(-50%, -50%)",
-              background:
-                "linear-gradient(90deg, transparent, rgb(160 205 255 / 0.5) 30%, #fff 50%, rgb(160 205 255 / 0.5) 70%, transparent)",
-              boxShadow: "0 0 18px 2px rgb(150 200 255 / 0.55)",
-              animation: "flare 2.4s var(--ease-out-quint) 1.5s backwards",
             }}
           />
         </motion.div>
@@ -91,7 +84,7 @@ export default function Hero() {
             anim="load"
             delay={500}
             text="Fazal Singh"
-            className="mt-6 max-w-[5.6em] text-[15.5vw] font-bold leading-[1.08] tracking-[0.06em] sm:max-w-none sm:text-[7.4vw] md:mt-7 md:text-[6.4vw] min-[1400px]:text-[92px]"
+            className="mt-6 max-w-[5.6em] pl-[0.06em] text-[15.5vw] font-bold leading-[1.08] tracking-[0.06em] sm:max-w-none sm:text-[7.4vw] md:mt-7 md:text-[6.4vw] min-[1400px]:text-[92px]"
           />
 
           <Words

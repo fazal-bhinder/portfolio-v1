@@ -156,7 +156,10 @@ export default function Skills() {
               aria-live="polite"
               className="pointer-events-none absolute inset-x-0 top-[calc(50%+11%)] text-center font-mono text-[11px] uppercase tracking-[0.2em] text-star"
             >
-              {hot?.item ?? (hot ? orbits[hot.orbit].name : `${total} tools, 3 orbits`)}
+              {/* a plate behind it, so satellites passing underneath do not garble it */}
+              <span className="bg-void/80 px-2 py-1">
+                {hot?.item ?? (hot ? orbits[hot.orbit].name : `${total} tools, 3 orbits`)}
+              </span>
             </p>
           </div>
         </Rise>

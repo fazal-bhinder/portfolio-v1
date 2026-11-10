@@ -355,14 +355,15 @@ export function Planet({
     }
 
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio, 2);
+    const dpr = Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.5 : 2);
     let spin = 0;
     let velocity = 0;
     let dragging = false;
     let lastX = 0;
     let visible = false;
     let raf = 0;
-    let frame = 0;
+    let drawn = 0;
+    let every = 33;
 
     const paint = (now: number) => renderer.draw(ctx, look, spin, still ? 0 : now / 1000);
 
@@ -372,13 +373,21 @@ export function Planet({
         velocity *= 0.95;
       }
       // the globe turns slowly: every other frame is plenty unless it is being spun
-      if (frame++ % 2 === 0 || dragging || Math.abs(velocity) > 0.001) paint(now);
+      // The globe turns slowly, so it is only redrawn once its surface has
+      // moved about half a pixel: 20 or so frames a second for a large globe,
+      // 4 for a moon. While it is being spun by hand, every frame.
+      if (now - drawn >= every || dragging || Math.abs(velocity) > 0.001) {
+        drawn = now;
+        paint(now);
+      }
       raf = requestAnimationFrame(loop);
     };
 
     const resize = () => {
       const size = Math.round(canvas.clientWidth * dpr);
       if (size && size !== canvas.width) canvas.width = canvas.height = size;
+      // surface speed at the equator is 0.035 rad/s times the radius (40% of the box)
+      every = Math.min(Math.max(500 / (0.035 * 0.4 * Math.max(canvas.clientWidth, 1)), 33), 250);
       paint(performance.now());
     };
     const sizes = new ResizeObserver(resize);
@@ -394,7 +403,7 @@ export function Planet({
           if (!still) raf = requestAnimationFrame(loop);
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "60px" }
     );
     views.observe(canvas);
 

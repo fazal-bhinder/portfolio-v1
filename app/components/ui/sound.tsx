@@ -83,7 +83,8 @@ export function SoundProvider({ children }: { children: React.ReactNode }) {
     const music = new Audio(MUSIC_SRC);
     music.loop = true;
     music.volume = MUSIC_VOLUME;
-    music.preload = "auto";
+    // sound is off by default: fetch the track only when it is first played
+    music.preload = "none";
     musicRef.current = music;
 
     const isInteractive = (target: EventTarget | null) =>

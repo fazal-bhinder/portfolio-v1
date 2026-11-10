@@ -26,8 +26,11 @@ export function Space() {
     if (!canvas || !ctx) return;
 
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio, 1.5);
-    const count = window.innerWidth < 768 ? 700 : 1700;
+    // this canvas is redrawn in full every frame, so on phones it stays small:
+    // one canvas pixel per CSS pixel is plenty for points of light
+    const phone = window.innerWidth < 768;
+    const dpr = phone ? 1 : Math.min(window.devicePixelRatio, 1.5);
+    const count = phone ? 420 : 1700;
 
     const stars = Array.from({ length: count }, (_, i) => ({
       x: (Math.random() * 2 - 1) * SPREAD,
