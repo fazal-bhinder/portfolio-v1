@@ -23,6 +23,7 @@ uniform vec2 uRes;
 uniform float uTime;
 uniform float uDist;
 uniform vec2 uLook;
+uniform float uShift;
 
 const float R_IN = 2.6;
 const float R_OUT = 9.0;
@@ -51,6 +52,9 @@ float gas(vec2 xz, float r, float t) {
 
 void main() {
   vec2 uv = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
+  // on wide screens the hole slides right as the camera closes in, and the
+  // picture is mirrored so the bright arm of the disk sweeps away from the text
+  uv.x = uShift - uv.x;
   // a few degrees of roll, so the disk is not dead level
   float roll = -0.13;
   uv = mat2(cos(roll), -sin(roll), sin(roll), cos(roll)) * uv;
@@ -172,6 +176,7 @@ export function BlackHole({
     const uTime = gl.getUniformLocation(program, "uTime");
     const uDist = gl.getUniformLocation(program, "uDist");
     const uLook = gl.getUniformLocation(program, "uLook");
+    const uShift = gl.getUniformLocation(program, "uShift");
 
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let visible = false;
@@ -197,8 +202,12 @@ export function BlackHole({
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform1f(uTime, now / 1000);
       // far away and small, then close enough that the disk leaves the frame
-      const portrait = canvas.height > canvas.width ? 1.7 : 1;
-      gl.uniform1f(uDist, (30 - 17.5 * approach.get()) * portrait);
+      const aspect = canvas.width / canvas.height;
+      const portrait = aspect < 1 ? 1.7 : 1;
+      const near = approach.get();
+      gl.uniform1f(uDist, (30 - 17.5 * near) * portrait);
+      // up to a fifth of the screen width, only where there is width to spare
+      gl.uniform1f(uShift, Math.max(0, aspect - 1.1) * 0.42 * Math.min(near * 1.4, 1));
       gl.uniform2f(uLook, look.x, look.y);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };

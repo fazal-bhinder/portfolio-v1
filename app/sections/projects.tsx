@@ -49,7 +49,7 @@ export default function Projects() {
     <section id="worlds" className="overflow-x-clip">
       <Jump />
       {projects.slice(0, FEATURED).map((project, i) => (
-        <World key={project.title} project={project} flip={i % 2 === 1} />
+        <World key={project.title} project={project} index={i} />
       ))}
       <Moons items={projects.slice(FEATURED)} />
     </section>
@@ -93,41 +93,53 @@ function Jump() {
 }
 
 /**
- * One project, one world: a live globe on one side, the write-up and a real
- * screenshot on the other. Nothing pins, so it reads the same on every screen.
+ * One project, one world. On wide screens the globe is bigger than the
+ * screen is tall and hangs half out of frame, the way a planet fills a
+ * cockpit window; the write-up sits on the open side. Nothing pins.
  */
-function World({ project, flip }: { project: Project; flip: boolean }) {
+function World({ project, index }: { project: Project; index: number }) {
   const reduce = useReduce();
   const look = LOOKS[project.title] ?? FALLBACK;
+  const flip = index % 2 === 1;
 
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
-  // the globe drifts a little against the page, for depth
-  const drift = useTransform(scrollYProgress, [0, 1], ["9%", "-9%"]);
+  // the approach: the world swells as it comes into frame, then drifts past
+  const scale = useTransform(scrollYProgress, [0, 0.5], [0.78, 1]);
+  const drift = useTransform(scrollYProgress, [0, 1], ["7%", "-7%"]);
 
   return (
     <article
       ref={ref}
-      className={`${SHELL} grid grid-cols-1 items-center gap-x-12 gap-y-2 py-14 md:min-h-[88svh] md:grid-cols-2 md:py-16`}
+      className="relative flex flex-col justify-center py-12 md:min-h-[100svh] md:py-24"
     >
-      {/* wider than its column on purpose: it bleeds toward the screen edge */}
+      {/* the canvas is a square with the globe inset at 80%, so 118svh of
+          canvas is a globe about as tall as the screen */}
       <motion.div
-        style={reduce ? undefined : { y: drift }}
-        className={`w-[min(96vw,27rem)] justify-self-center md:w-[min(50vw,84svh)] ${
-          flip ? "md:order-2 md:justify-self-start" : "md:justify-self-end"
+        style={reduce ? undefined : { y: drift, scale }}
+        className={`mx-auto w-[min(100vw,28rem)] md:absolute md:top-1/2 md:w-[min(118svh,78vw)] md:-translate-x-1/2 md:-translate-y-1/2 ${
+          flip ? "md:left-[76vw]" : "md:left-[24vw]"
         }`}
       >
         <Planet look={look} />
       </motion.div>
 
-      <div className="relative min-w-0">
+      <div className={`${SHELL} relative`}>
+        <div className={`min-w-0 md:w-[43%] ${flip ? "" : "md:ml-auto"}`}>
+        <Rise>
+          <p className="mb-5 flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.3em] text-ion">
+            World {String(index + 1).padStart(2, "0")}
+            <span className="h-px w-10 bg-ion/50" />
+            <span className="text-dim">{String(FEATURED).padStart(2, "0")}</span>
+          </p>
+        </Rise>
         <Title
           as="h3"
           text={project.title}
-          className="text-[8.4vw] font-bold leading-[1.1] tracking-[0.03em] sm:text-4xl md:text-[3.3vw] min-[1400px]:text-[47px]"
+          className="text-[8.4vw] font-bold leading-[1.1] tracking-[0.03em] sm:text-4xl md:text-[3.6vw] min-[1400px]:text-[52px]"
         />
         <Rise delay={0.1}>
           <p className="mt-5 max-w-[46ch] text-base font-light leading-relaxed text-star/75 md:mt-6 md:text-lg">
@@ -137,7 +149,7 @@ function World({ project, flip }: { project: Project; flip: boolean }) {
 
         {/* the real thing, framed like a view from orbit */}
         <Rise delay={0.15}>
-          <figure className="mt-8 max-w-[520px] md:mt-9">
+          <figure className="mt-8 max-w-[480px] md:mt-9">
             <figcaption className="mb-3 flex items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-[0.22em] text-dim">
               <span>Surface scan</span>
               {project.liveUrl && <span className="truncate">{host(project.liveUrl)}</span>}
@@ -147,7 +159,7 @@ function World({ project, flip }: { project: Project; flip: boolean }) {
                 src={project.imageSrc}
                 alt={`${project.title} screenshot`}
                 fill
-                sizes="(min-width: 768px) 520px, 92vw"
+                sizes="(min-width: 768px) 480px, 92vw"
                 className="object-cover object-top"
               />
               {/* viewfinder corners */}
@@ -181,6 +193,7 @@ function World({ project, flip }: { project: Project; flip: boolean }) {
             </a>
           </Rise>
         )}
+        </div>
       </div>
     </article>
   );
