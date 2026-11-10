@@ -93,9 +93,8 @@ function Jump() {
 }
 
 /**
- * One project, one world. On wide screens the globe is bigger than the
- * screen is tall and hangs half out of frame, the way a planet fills a
- * cockpit window; the write-up sits on the open side. Nothing pins.
+ * One project, one world: a live globe on one side, the write-up and a real
+ * screenshot on the other. Nothing pins, so it reads the same on every screen.
  */
 function World({ project, index }: { project: Project; index: number }) {
   const reduce = useReduce();
@@ -107,28 +106,28 @@ function World({ project, index }: { project: Project; index: number }) {
     target: ref,
     offset: ["start end", "end start"],
   });
-  // the approach: the world swells as it comes into frame, then drifts past
-  const scale = useTransform(scrollYProgress, [0, 0.5], [0.78, 1]);
+  // the approach: the world swells a little as it comes into frame, then drifts past
+  const scale = useTransform(scrollYProgress, [0, 0.5], [0.86, 1]);
   const drift = useTransform(scrollYProgress, [0, 1], ["7%", "-7%"]);
 
   return (
     <article
       ref={ref}
-      className="relative flex flex-col justify-center py-12 md:min-h-[100svh] md:py-24"
+      className={`${SHELL} grid grid-cols-1 items-center gap-x-16 gap-y-4 py-12 md:min-h-[88svh] md:grid-cols-2 md:py-16`}
     >
-      {/* the canvas is a square with the globe inset at 80%, so 118svh of
-          canvas is a globe about as tall as the screen */}
+      {/* Sized by three limits at once (window width, window height, and a
+          hard cap) so it can never outgrow its half of the screen. It may
+          spill outward past the page gutter, never inward toward the text. */}
       <motion.div
         style={reduce ? undefined : { y: drift, scale }}
-        className={`mx-auto w-[min(100vw,28rem)] md:absolute md:top-1/2 md:w-[min(118svh,78vw)] md:-translate-x-1/2 md:-translate-y-1/2 ${
-          flip ? "md:left-[76vw]" : "md:left-[24vw]"
+        className={`w-[min(84vw,23rem)] justify-self-center md:w-[min(48vw,80svh,50rem)] ${
+          flip ? "md:order-2 md:justify-self-start" : "md:justify-self-end"
         }`}
       >
         <Planet look={look} />
       </motion.div>
 
-      <div className={`${SHELL} relative`}>
-        <div className={`min-w-0 md:w-[43%] ${flip ? "" : "md:ml-auto"}`}>
+      <div className="relative min-w-0">
         <Rise>
           <p className="mb-5 flex items-center gap-4 font-mono text-[11px] uppercase tracking-[0.3em] text-ion">
             World {String(index + 1).padStart(2, "0")}
@@ -193,7 +192,6 @@ function World({ project, index }: { project: Project; index: number }) {
             </a>
           </Rise>
         )}
-        </div>
       </div>
     </article>
   );

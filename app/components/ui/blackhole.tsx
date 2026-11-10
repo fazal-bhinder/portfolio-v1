@@ -181,15 +181,20 @@ export function BlackHole({
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let visible = false;
     let raf = 0;
-    let frame = 0;
     const look = { x: 0, y: 0, tx: 0, ty: 0 };
 
+    // The picture is ray-marched (220 steps per pixel), so how many pixels it
+    // can afford depends on the GPU. Start at a middling budget, then let
+    // tune() grow it toward the screen's real resolution while frames stay
+    // smooth, and shrink it when they do not.
+    const phone = window.innerWidth < 768;
+    let budget = phone ? 220_000 : 700_000;
+    let ceiling = phone ? 600_000 : 2_400_000;
+
     const resize = () => {
-      // ponytail: fixed pixel budget (220 march steps per pixel). If it needs
-      // to be sharper on fast GPUs, scale the budget from a measured frame time.
-      const budget = window.innerWidth < 768 ? 110_000 : 300_000;
       const { clientWidth: cw, clientHeight: ch } = canvas;
-      const scale = Math.min(1, Math.sqrt(budget / Math.max(cw * ch, 1)));
+      const dpr = Math.min(window.devicePixelRatio, 2);
+      const scale = Math.min(dpr, Math.sqrt(budget / Math.max(cw * ch, 1)));
       canvas.width = Math.max(1, Math.round(cw * scale));
       canvas.height = Math.max(1, Math.round(ch * scale));
       gl.viewport(0, 0, canvas.width, canvas.height);
@@ -212,15 +217,49 @@ export function BlackHole({
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
 
+    // ponytail: frame pacing is judged from requestAnimationFrame gaps, which
+    // also stretch when the page itself is busy. If that ever shrinks the
+    // picture on a fast machine, time the draw with EXT_disjoint_timer_query.
+    let drawn = 0;
+    let last = 0;
+    let ticks = 0;
+    let span = 0;
+    let slow = 0;
+    const tune = (gap: number) => {
+      span += gap;
+      if (++ticks < 40) return;
+      const average = span / ticks;
+      ticks = span = 0;
+      const full =
+        canvas.clientWidth * canvas.clientHeight * Math.min(window.devicePixelRatio, 2) ** 2;
+      if (average > 24) {
+        // two slow windows in a row: back off, and remember not to climb back
+        if (++slow < 2) return;
+        ceiling = budget * 0.9;
+        budget = Math.max(budget * 0.7, 120_000);
+      } else {
+        slow = 0;
+        if (average > 19 || budget >= Math.min(ceiling, full)) return;
+        budget = Math.min(budget * 1.3, ceiling, full);
+      }
+      resize();
+    };
+
     const loop = (now: number) => {
-      // every other frame: the disk turns slowly, 30fps is plenty
-      if (frame++ % 2 === 0) render(now);
+      if (last) tune(Math.min(now - last, 100));
+      last = now;
+      // the disk turns slowly: about 30 frames a second is plenty, at any refresh rate
+      if (now - drawn > 30) {
+        drawn = now;
+        render(now);
+      }
       raf = requestAnimationFrame(loop);
     };
 
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       cancelAnimationFrame(raf);
+      last = ticks = span = 0; // time off screen is not a slow frame
       if (visible && !still) raf = requestAnimationFrame(loop);
       else if (visible) render(0);
     });
