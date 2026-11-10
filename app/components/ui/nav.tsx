@@ -69,13 +69,17 @@ export default function Nav() {
         >
           Fazal Singh
         </a>
-        <div className="pointer-events-auto flex items-center gap-6 text-dim">
-          <SoundToggle className="flex items-center gap-2 transition-colors duration-300 hover:text-star" />
+        <div className="pointer-events-auto flex items-center gap-5 text-dim sm:gap-6">
+          {/* phones: the sound toggle shrinks to its icon (its aria-label still
+              names it) so the resume link fits beside it. Padding paired with
+              an equal negative margin gives both a finger-sized tap area
+              without moving them. */}
+          <SoundToggle className="-m-3 flex items-center gap-2 p-3 transition-colors duration-300 hover:text-star max-sm:[&>span]:hidden" />
           <a
             href={RESUME_URL}
             target="_blank"
             rel="noreferrer"
-            className="hidden items-center gap-1 transition-colors duration-300 hover:text-star sm:flex"
+            className="-my-3 flex items-center gap-1 py-3 transition-colors duration-300 hover:text-star"
           >
             Resume
             <IconArrowUpRight aria-hidden size={13} stroke={1.5} />
